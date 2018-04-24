@@ -15,6 +15,9 @@
 
         <!-- Alert -->
         <?php 
+        // $cek_max = $UserM->cek_max()->id_pengguna;
+        var_dump($cek_max);?>
+        <?php 
         $data=$this->session->flashdata('sukses');
         if($data!=""){ ?>
         <div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div>
@@ -108,39 +111,61 @@
                     </td>
                     <td class="text-center">
                       <?php 
-                      $kode = $kegiatan->kode_kegiatan;
-                      $id   = $data_diri->id_pengguna;
-                      $own  = $UserM->get_own_progress($kode, $id);
-                        // print_r($own);
-                      if($own > 0){
+                      $own_id     = $data_diri->id_pengguna; //id sendri
+                      $max        = $cek_max->ranking; //id pengguna rank tertinggi
+                      $id_max     = $UserM->cek_id_by_rank($max)->id_pengguna; //id yang rank nya max
+                      $own_rank   = $UserM->cek_rank_by_id($own_id)->ranking; //rank sendiri
+                      $rank_next  = ((int)$own_rank + 1); //id yang punya rank sendri + 1
+                      $id_next    = $UserM->cek_id_by_rank($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
+                      $progress_id_next = $UserM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
+                      $progress_id_next;
+                      $kode = $kegiatan->kode_kegiatan; 
+                      $own  = $UserM->get_own_progress($kode, $own_id);
+
+                      if($own_id == $id_max){
+                       if($own > 0){ //SUDAH INPUT 
                         ?>
                         <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                           <?php
-                        }elseif ($own == 0) {
+                        }else{
                           ?>
                           <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                           <?php
                         }
-                        ?>
 
-                      </td>
-                    </tr>
-                    <?php
-                  }
-                  ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                      }elseif($progress_id_next == "1"){
+                       if($own > 0){?>
+                       <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
+                        <?php
+                      }else{
+                        ?>
+                        <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                        <?php 
+                      }
+                    }else{
+                      ?>
+                      <a href="#myModal" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                      <?php
+                    }
+                    ?>
+                  </td>
+                </tr>
+                <?php
+              }
+              ?>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </section>
-  <div class="text-center">
-    <div class="credits">
-      <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
   </div>
+</div>
+</section>
+<div class="text-center">
+  <div class="credits">
+    <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</div>
 </section>
 <!-- modal detail pengajuan -->
 <div class="modal fade" id="myModal" role="dialog">

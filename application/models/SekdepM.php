@@ -3,7 +3,7 @@ class SekdepM extends CI_Model{
 	function __construct(){
 		parent:: __construct();
 		$this->load->database();
-	}
+	}	
 
 	public function get_data_pengajuan_by_id($kode_jenis_kegiatan, $id){
 		$this->db->select('*');

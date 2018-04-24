@@ -412,4 +412,27 @@
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
+	public function cek_max(){
+		$this->db->select_max('ranking');
+		$this->db->where('kode_jenis_kegiatan = "2"');
+		$query = $this->db->get('acc_kegiatan')->row(); 
+		return $query;
+	}
+
+	public function cek_id_by_rank($rank){
+		$this->db->select('*');
+		$this->db->where('ranking', $rank);
+		$this->db->where('kode_jenis_kegiatan = "2"');
+		$query = $this->db->get('acc_kegiatan')->row(); 
+		return $query;
+	}
+
+	public function cek_rank_by_id($id_pengguna){
+		$this->db->select('ranking');
+		$this->db->where('id_pengguna', $id_pengguna);
+		$this->db->where('kode_jenis_kegiatan = "2"');
+		$query = $this->db->get('acc_kegiatan')->row(); 
+		return $query;
+	}
 }  

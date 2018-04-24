@@ -34,7 +34,8 @@ class KadepC extends CI_Controller {
 		$data['title'] = "Persetujuan Kegiatan Mahasiswa | Kepala Departemen";
 		$this->data['data_pengajuan_kegiatan_mahasiswa'] = $this->UserM->get_data_pengajuan($kode_jenis_kegiatan)->result();
 		
-		$this->data['UserM'] = $this->UserM ;	
+		$this->data['UserM'] = $this->UserM ;
+		$this->data['cek_max'] = $this->UserM->cek_max();	
 		$this->data['KadepM'] = $this->KadepM ;	
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('kadep/persetujuan_kegiatan_mahasiswa_content', $this->data, true) ;
@@ -101,7 +102,7 @@ class KadepC extends CI_Controller {
 	public function konfigurasi_sistem(){
 		$data['title'] = "Konfigurasi Sistem | Kepala Departemen";
 		$this->data['persetujuan_kegiatan']	= $this->UserM->get_persetujuan_kegiatan()->result();
-		$this->data['detail_jabatan'] = $this->UserM->get_pilihan_jabatan_by_id(1)->result()[0];
+		$this->data['detail_jabatan'] 		= $this->UserM->get_pilihan_jabatan_by_id(1)->result()[0];
 		$this->data['nama_pengguna']		= $this->KadepM->get_data_pengguna()->result();
 		$this->data['nama_progress']		= $this->UserM->get_nama_progress()->result();
 		$this->data['jenis_kegiatan']		= $this->UserM->get_jenis_kegiatan()->result();
