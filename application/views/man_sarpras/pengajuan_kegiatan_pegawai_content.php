@@ -143,7 +143,7 @@
               <div class="form-group">
                 <!-- <label>ID Pengguna Jabatan</label> -->
 
-                <input class="form-control" type="hidden" id="no_identitas" name="no_identitas" value="<?php echo $data_diri->no_identitas;?>" required>
+                <input class="form-control" type="hidden" id="id_pengguna" name="id_pengguna" value="<?php echo $data_diri->id_pengguna;?>" required>
                 
               </div>
               <div class="form-group">

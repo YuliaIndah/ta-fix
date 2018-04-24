@@ -5,7 +5,7 @@
             <p class="form-control-static"> <?php echo ": ".$detail_kegiatan->nama_kegiatan; ?> </p>
         </div>
         <input type="hidden" name="kode_fk" value="<?php echo $detail_kegiatan->kode_kegiatan?>"> <!-- buat input ke tabel progress -->
-        <input type="hidden" name="no_identitas" value="<?php echo $data_diri->no_identitas;?>"> <!-- buat input ke tabel progress -->
+        <input type="hidden" name="id_pengguna" value="<?php echo $data_diri->id_pengguna;?>"> <!-- buat input ke tabel progress -->
 
         <input type="hidden" name="jenis_progress" id="jenis_progress" value="kegiatan"> <!-- buat input ke tabel progress -->
         

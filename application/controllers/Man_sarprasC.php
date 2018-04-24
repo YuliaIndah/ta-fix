@@ -31,6 +31,7 @@ class Man_sarprasC extends CI_Controller {
 	public function persetujuan_barang(){ //halaman persetujuan barang (man_sarpras)
 		$data['title'] = "Persetujuan Barang | Manajer Sarana dan Prasarana";
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
 		$this->data['data_persetujuan_barang'] = $this->Man_sarprasM->get_data_item_pengajuan()->result();
 		$data['body'] = $this->load->view('man_sarpras/persetujuan_barang_content', $this->data, true) ;
 		$this->load->view('man_sarpras/index_template', $data);
@@ -102,11 +103,10 @@ class Man_sarprasC extends CI_Controller {
 	}
 
 	public function post_persetujuan_barang(){ //fungsi untuk tambah progress persetujuan barang
-		$this->form_validation->set_rules('no_identitas', 'No Identitas','required');
+		$this->form_validation->set_rules('id_pengguna', 'Id Pengguna','required');
 		$this->form_validation->set_rules('kode_fk', 'Kode FK','required');
 		$this->form_validation->set_rules('kode_nama_progress', 'Kode Nama Progress','required');
 		$this->form_validation->set_rules('komentar', 'Komentar','required');
-		$this->form_validation->set_rules('jenis_progress', 'Merk','required');
 		if($this->form_validation->run() == FALSE)
 		{
 			$this->session->set_flashdata('error','Data Persetujuan anda tidak berhasil ditambahkan1 ');
@@ -114,11 +114,10 @@ class Man_sarprasC extends CI_Controller {
 			//redirect ke halaman pengajuan barang
 		}else{
 			
-			$no_identitas 		= $_POST['no_identitas'];
+			$id_pengguna 		= $_POST['id_pengguna'];
 			$kode_fk 		    = $_POST['kode_fk'];
 			$kode_nama_progress = $_POST['kode_nama_progress'];
 			$komentar           = $_POST['komentar'];
-			// $jenis_progress 	= $_POST['jenis_progress'];
 			$jenis_progress 	= "barang";
 
 			$format_waktu 		= "%H:%i";
@@ -129,7 +128,7 @@ class Man_sarprasC extends CI_Controller {
 
 
 			$data_progress		= array(
-				'no_identitas'		=> $no_identitas,
+				'id_pengguna'		=> $id_pengguna,
 				'kode_fk'			=> $kode_fk,
 				'kode_nama_progress'=> $kode_nama_progress,
 				'komentar'			=> $komentar,
@@ -139,7 +138,12 @@ class Man_sarprasC extends CI_Controller {
 
 			);
 
-			$persetujuan = 'proses';
+			if($kode_nama_progress == '1'){
+				$persetujuan = 'proses';
+			}elseif ($kode_nama_progress == "2") {
+				$persetujuan = 'tolak';
+			}
+			
 			$data = array(
 				'status_pengajuan' => $persetujuan
 			);
@@ -167,7 +171,7 @@ class Man_sarprasC extends CI_Controller {
 		);
 
 		if($this->Man_sarprasM->update_persetujuan_tersedia($data, $kode_item_pengajuan)){
-			$no_identitas 		= $data_diri->no_identitas;
+			$id_pengguna 		= $data_diri->id_pengguna;
 			$kode_fk 		    = $kode_item_pengajuan;
 			$kode_nama_progress = "1";
 			$komentar           = "barang tersedia";
@@ -181,7 +185,7 @@ class Man_sarprasC extends CI_Controller {
 
 
 			$data_progress		= array(
-				'no_identitas'		=> $no_identitas,
+				'id_pengguna'		=> $id_pengguna,
 				'kode_fk'			=> $kode_fk,
 				'kode_nama_progress'=> $kode_nama_progress,
 				'komentar'			=> $komentar,
@@ -211,12 +215,10 @@ class Man_sarprasC extends CI_Controller {
 	public function update_klasifikasi($kode_jenis_barang, $kode_barang){ //edit data diri
 		$kode_barang     	= $kode_barang;
 		$kode_jenis_barang  = $kode_jenis_barang;
-		$status_klasifikasi = 'valid';
 
 		$data = array(
 			'kode_barang'     	=> $kode_barang,
-			'kode_jenis_barang' => $kode_jenis_barang,
-			'status_klasifikasi'=> $status_klasifikasi
+			'kode_jenis_barang' => $kode_jenis_barang
 		);
 		$this->Man_sarprasM->update_klasifikasi_barang($kode_barang,$data);
 		$this->session->set_flashdata('sukses','Data anda berhasil disimpan');
@@ -225,8 +227,9 @@ class Man_sarprasC extends CI_Controller {
 
 	public function ajukan_RAB(){ //halaman kelola barang(man_sarpras)
 		$data['title'] = "Pengajuan RAB | Manajer Sarana dan Prasarana";
-		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];      //get data diri buat nampilin nama di pjok kanan
-		$this->data['data_barang_setuju'] = $this->UserM->get_barang_setuju()->result();          //menampilkan data item pengajuan barang 
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
+		$this->data['data_barang_setuju'] = $this->Man_sarprasM->get_barang_setuju()->result(); //menampilkan data item pengajuan barang 
+		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
 		$data['body'] = $this->load->view('man_sarpras/ajukan_RAB_content', $this->data, true);
 		$this->load->view('man_sarpras/index_template', $data);
 	}
@@ -274,7 +277,7 @@ class Man_sarprasC extends CI_Controller {
 	}
 
 	public function post_progress(){ //posting progress dan update kegiatan (dana disetujuin)
-		$this->form_validation->set_rules('no_identitas', 'No Identitas','required');
+		$this->form_validation->set_rules('id_pengguna', 'Id Pengguna','required');
 		$this->form_validation->set_rules('kode_fk', 'Kode Kegiatan','required');
 		$this->form_validation->set_rules('kode_nama_progress', 'Nama Progress','required'); //diterima/ditolak
 		$this->form_validation->set_rules('komentar', 'Komentar','required');
@@ -283,7 +286,7 @@ class Man_sarprasC extends CI_Controller {
 			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
 			redirect_back(); //kembali ke halaman sebelumnya -> helper
 		}else{
-			$no_identitas		= $_POST['no_identitas'];
+			$id_pengguna		= $_POST['id_pengguna'];
 			$kode_fk			= $_POST['kode_fk'];
 			$kode_nama_progress	= $_POST['kode_nama_progress'];
 			$komentar			= $_POST['komentar'];
@@ -296,7 +299,7 @@ class Man_sarprasC extends CI_Controller {
 			$waktu_progress	= mdate($format_waktu);
 
 			$data = array(
-				'no_identitas' 			=> $no_identitas,
+				'id_pengguna' 			=> $id_pengguna,
 				'kode_fk'				=> $kode_fk,
 				'kode_nama_progress' 	=> $kode_nama_progress,
 				'komentar'				=> $komentar,
@@ -317,7 +320,7 @@ class Man_sarprasC extends CI_Controller {
 	}
 
 	public function post_pengajuan_kegiatan_pegawai(){ //fungsi post pengajuan kegiatan pegawai
-		$this->form_validation->set_rules('no_identitas', 'No Identitas','required');
+		$this->form_validation->set_rules('id_pengguna', 'Id Pengguna','required');
 		$this->form_validation->set_rules('kode_jenis_kegiatan', 'Kode Jenis Kegiatan','required');
 		$this->form_validation->set_rules('nama_kegiatan', 'Nama Kegiatan','required');
 		$this->form_validation->set_rules('tgl_kegiatan', 'Tanggal Kegiatan','required');
@@ -326,9 +329,9 @@ class Man_sarprasC extends CI_Controller {
 		$this->form_validation->set_rules('tgl_pengajuan', 'Tanggal Pengajuan','required');
 		if($this->form_validation->run() == FALSE){
 			$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan, validasi data tidak benar');
-			redirect('Man_sarprasC/pengajuan_kegiatan_');
+			redirect('Man_sarprasC/pengajuan_kegiatan');
 		}else{
-			$no_identitas 			= $_POST['no_identitas'];
+			$id_pengguna 			= $_POST['id_pengguna'];
 			$kode_jenis_kegiatan 	= $_POST['kode_jenis_kegiatan'];
 			$nama_kegiatan 			= $_POST['nama_kegiatan'];
 			$tgl_kegiatan 			= date('Y-m-d',strtotime($_POST['tgl_kegiatan']));
@@ -337,14 +340,14 @@ class Man_sarprasC extends CI_Controller {
 			$tgl_pengajuan 			= $_POST['tgl_pengajuan'];
 
 			$data_pengajuan_kegiatan = array(
-				'no_identitas' 			=> $no_identitas,
+				'id_pengguna' 			=> $id_pengguna,
 				'kode_jenis_kegiatan' 	=> $kode_jenis_kegiatan,
 				'nama_kegiatan' 		=> $nama_kegiatan,
 				'tgl_kegiatan'			=> $tgl_kegiatan,
 				'tgl_selesai_kegiatan'	=> $tgl_selesai_kegiatan,
 				'dana_diajukan' 		=> $dana_diajukan,
 				'tgl_pengajuan'			=> $tgl_pengajuan,
-				'pimpinan'				=> $no_identitas);
+				'pimpinan'				=> $id_pengguna);
 
 			$insert_id = $this->UserM->insert_pengajuan_kegiatan($data_pengajuan_kegiatan);
 				if($insert_id){ //get last insert id
@@ -362,7 +365,7 @@ class Man_sarprasC extends CI_Controller {
 					$jenis_progress		= "kegiatan";
 
 					$data = array(
-						'no_identitas' 			=> $no_identitas,
+						'id_pengguna' 			=> $id_pengguna,
 						'kode_fk'				=> $insert_id,
 						'kode_nama_progress' 	=> $kode_nama_progress,
 						'komentar'				=> $komentar,
@@ -392,7 +395,7 @@ class Man_sarprasC extends CI_Controller {
 		$data['title'] = "Daftar Pengajuan Barang | Kepala Departemen";
 		$kode_unit = $this->session->userdata('kode_unit');
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pojok kanan
-		$this->data['data_ajukan_barang'] = $this->UserM->get_ajukan_barang()->result();	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
+		$this->data['data_ajukan_barang'] = $this->Man_sarprasM->get_ajukan_barang()->result();	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
 		$this->data['data_pimpinan'] = $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->no_identitas;	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
 		$this->data['pilihan_barang'] = $this->UserM->get_pilihan_barang()->result();
 		$data['body'] = $this->load->view('man_sarpras/ajukan_barang_content', $this->data, true);
@@ -434,7 +437,7 @@ class Man_sarprasC extends CI_Controller {
 
 
 	public function post_tambah_ajukan_barang(){ //fungsi untuk tambah pengajuan barang
-		$this->form_validation->set_rules('no_identitas', 'No Identitas','required');
+		$this->form_validation->set_rules('id_pengguna', 'Id Pengguna','required');
 		$this->form_validation->set_rules('kode_barang', 'Nama Barang','required');
 		$this->form_validation->set_rules('tgl_item_pengajuan', 'Tanggal Item Pengajuan','required');
 		$this->form_validation->set_rules('nama_item_pengajuan', 'Nama Item Pengajuan','required');
@@ -450,7 +453,7 @@ class Man_sarprasC extends CI_Controller {
 			//redirect ke halaman pengajuan barang
 		}else{
 			$upload = $this->Man_sarprasM->upload(); // lakukan upload file dengan memanggil function upload yang ada di Man_sarprasM.php
-			$no_identitas 		= $_POST['no_identitas'];
+			$id_pengguna 		= $_POST['id_pengguna'];
 			$kode_barang 		= $_POST['kode_barang'];
 			$tgl_item_pengajuan = $_POST['tgl_item_pengajuan'];
 			$nama_item_pengajuan= $_POST['nama_item_pengajuan'];
@@ -463,7 +466,7 @@ class Man_sarprasC extends CI_Controller {
 			$baru = "baru"; //buat status pengajuan berstatus baru ketika baru dibuat
 
 			$data_pengguna		= array(
-				'no_identitas'			=> $no_identitas,
+				'id_pengguna'			=> $id_pengguna,
 				'kode_barang'			=> $kode_barang,
 				'status_pengajuan'		=> $baru,
 				'tgl_item_pengajuan'	=> $tgl_item_pengajuan,
@@ -490,7 +493,7 @@ class Man_sarprasC extends CI_Controller {
 					$jenis_progress		= "barang";
 
 					$data = array(
-						'no_identitas' 			=> $no_identitas,
+						'id_pengguna' 			=> $id_pengguna,
 						'kode_fk'				=> $insert_id,
 						'kode_nama_progress' 	=> $kode_nama_progress,
 						'komentar'				=> $komentar,
@@ -525,11 +528,10 @@ class Man_sarprasC extends CI_Controller {
 			//redirect ke halaman ajukan barang
 		}else{
 			$nama_barang 		= $_POST['nama_barang'];
-
-			$status_klasifikasi = "tidak valid";
+			$kode_jenis_barang  = "3";
 			$data_pengguna		= array(
 				'nama_barang'		=> $nama_barang,
-				'status_klasifikasi'=> $status_klasifikasi
+				'kode_jenis_barang' => $kode_jenis_barang
 			);
 			if($this->Man_sarprasM->insert_tambah_barang($data_pengguna)){
 				$this->session->set_flashdata('sukses','Data Barang Baru berhasil ditambahkan');

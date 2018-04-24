@@ -107,7 +107,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <input class="form-control" type="hidden" id="no_identitas" name="no_identitas" value="<?php echo $data_diri->no_identitas;?>" required> <!-- ambil id_pengguna_jabatan berdasarkan user yang login-->
+                <input class="form-control" type="hidden" id="id_pengguna" name="id_pengguna" value="<?php echo $data_diri->id_pengguna;?>" required> <!-- ambil id_pengguna_jabatan berdasarkan user yang login-->
                 <label class="col-lg-4 col-sm-2 control-label">Nama Item Pengajuan Barang :</label>
                 <div class="col-lg-8">
                   <input type="text" class="form-control" id="nama_item_pengajuan" name="nama_item_pengajuan" placeholder="Nama Item Pengajuan Barang">
