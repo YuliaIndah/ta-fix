@@ -68,7 +68,7 @@ class StafC extends CI_Controller {
 		$this->data['UserM'] = $this->UserM ;	
 		$this->data['data_diri'] 		= $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
 		$this->data['data_kegiatan'] 	= $this->UserM->get_kegiatan_pegawai()->result();	//menampilkan kegiatan yang diajukan user sebagai pegwai
-		$this->data['id_pimpinan'] 		= $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->no_identitas;
+		$this->data['id_pimpinan'] 		= $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->id_pengguna;
 		$data['body'] 					= $this->load->view('staf/pengajuan_kegiatan_content', $this->data, true);
 		$this->load->view('staf/index_template', $data);
 	}

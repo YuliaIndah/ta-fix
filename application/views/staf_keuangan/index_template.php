@@ -106,6 +106,17 @@
               <span>Pengajuan Kegiatan</span>
             </a>
           </li>
+          <li class="sub-menu">
+            <a href="javascript:;" class="">
+              <i class="glyphicon glyphicon-ok"></i>
+              <span>Status Kegiatan</span>
+              <span class="menu-arrow arrow_carrot-right"></span>
+            </a>
+            <ul class="sub">
+              <li> <a href="<?php echo site_url('Staf_keuanganC/status_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
+              <li> <a href="<?php echo site_url('Staf_keuanganC/status_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -159,26 +170,27 @@
 
       // CSS data DataTable
 
-      // $(document).ready(function() {
-      //   $('#example').DataTable();
-      // } );
       $(document).ready(function() {
-        var table = $('#example').DataTable();
-        
-        $("#example tfoot th").each( function ( i ) {
-          var select = $('<select><option value=""></option></select>')
-          .appendTo( $(this).empty() )
-          .on( 'change', function () {
-            table.column( i )
-            .search( $(this).val() )
-            .draw();
-          } );
-          
-          table.column( i ).data().unique().sort().each( function ( d, j ) {
-            select.append( '<option value="'+d+'">'+d+'</option>' )
-          } );
-        } );
+        $('#example').DataTable();
+        // "order": [[ 'Kegiatan.kode_kegiatan', 'asc' ]]
       } );
+      // $(document).ready(function() {
+      //   var table = $('#example').DataTable();
+
+      //   $("#example tfoot th").each( function ( i ) {
+      //     var select = $('<select><option value=""></option></select>')
+      //     .appendTo( $(this).empty() )
+      //     .on( 'change', function () {
+      //       table.column( i )
+      //       .search( $(this).val() )
+      //       .draw();
+      //     } );
+
+      //     table.column( i ).data().unique().sort().each( function ( d, j ) {
+      //       select.append( '<option value="'+d+'">'+d+'</option>' )
+      //     } );
+      //   } );
+      // } );
 
       function hanyaAngka(evt) {
         var charCode = (evt.which) ? evt.which : event.keyCode

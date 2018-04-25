@@ -194,7 +194,7 @@
 	}
 
 	public function get_id_pimpinan($kode_unit){
-		$this->db->select('pengguna.no_identitas');
+		$this->db->select('pengguna.id_pengguna');
 		$this->db->from('pengguna');
 		$this->db->join('jabatan', 'jabatan.kode_jabatan = pengguna.kode_jabatan');
 		$this->db->join('unit', 'unit.kode_unit = pengguna.kode_unit');
@@ -219,8 +219,8 @@
 		$this->db->join('jabatan', 'jabatan.kode_jabatan = pengguna.kode_jabatan');
 		$this->db->join('unit', 'unit.kode_unit = pengguna.kode_unit');
 		$this->db->where('kegiatan.kode_jenis_kegiatan', $kode_jenis_kegiatan);
+		$this->db->order_by('kegiatan.created_at', 'DESC');
 		$this->db->group_by('kegiatan.kode_kegiatan');
-		
  		// $this->db->where('progress.kode_nama_progress = "1"');
 		$query = $this->db->get();
 		if($query){
@@ -415,7 +415,7 @@
 
 	public function cek_max(){
 		$this->db->select_max('ranking');
-		$this->db->where('kode_jenis_kegiatan = "2"');
+		$this->db->where('kode_jenis_kegiatan = "2"'); //mhs
 		$query = $this->db->get('acc_kegiatan')->row(); 
 		return $query;
 	}
@@ -423,16 +423,51 @@
 	public function cek_id_by_rank($rank){
 		$this->db->select('*');
 		$this->db->where('ranking', $rank);
-		$this->db->where('kode_jenis_kegiatan = "2"');
-		$query = $this->db->get('acc_kegiatan')->row(); 
-		return $query;
+		$this->db->where('kode_jenis_kegiatan = "2"'); //mhs
+		if($query = $this->db->get('acc_kegiatan')->row()){
+			return $query;
+		}else{
+			return "data tidak ada";
+		}
 	}
 
 	public function cek_rank_by_id($id_pengguna){
 		$this->db->select('ranking');
 		$this->db->where('id_pengguna', $id_pengguna);
-		$this->db->where('kode_jenis_kegiatan = "2"');
+		$this->db->where('kode_jenis_kegiatan = "2"'); //mhs
+		if($query = $this->db->get('acc_kegiatan')->row()){
+			return $query;
+		}else{
+			return "data tidak ada";
+		}	
+	}
+
+	public function cek_max_pegawai(){
+		$this->db->select_max('ranking');
+		$this->db->where('kode_jenis_kegiatan = "1"'); //pegawai
 		$query = $this->db->get('acc_kegiatan')->row(); 
 		return $query;
+	}
+
+	public function cek_id_by_rank_pegawai($rank){
+		$this->db->select('*');
+		$this->db->where('ranking', $rank);
+		$this->db->where('kode_jenis_kegiatan = "1"'); //pegawai
+		if($query = $this->db->get('acc_kegiatan')->row()){
+			return $query;
+		}else{
+			return "data tidak ada";
+		}
+	}
+
+	public function cek_rank_by_id_pegawai($id_pengguna){
+		$this->db->select('ranking');
+		$this->db->where('id_pengguna', $id_pengguna);
+		$this->db->where('kode_jenis_kegiatan = "1"'); //pegawai
+		if($query = $this->db->get('acc_kegiatan')->row()){
+			return $query;
+		}else{
+			return "data tidak ada";
+		}	
 	}
 }  
