@@ -210,4 +210,18 @@ class Man_sarprasM extends CI_Model{
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
+	public function get_detail_progress_barang_by_id($id){ //menampilkan progress masing masing item pengajuan
+		$this->db->select('*');
+		$this->db->from('progress');
+		$this->db->join('pengguna', 'progress.id_pengguna = pengguna.id_pengguna');
+		$this->db->join('data_diri', 'pengguna.no_identitas = data_diri.no_identitas');
+		$this->db->join('jabatan', 'pengguna.kode_jabatan = jabatan.kode_jabatan');
+		$this->db->join('unit', 'pengguna.kode_unit = unit.kode_unit');
+		$this->db->join('nama_progress', 'progress.kode_nama_progress = nama_progress.kode_nama_progress');
+		$this->db->where('progress.kode_fk', $id);
+		$this->db->where('progress.jenis_progress = "barang"'); //barang
+		$query = $this->db->get();
+		return $query;
+	}
 }

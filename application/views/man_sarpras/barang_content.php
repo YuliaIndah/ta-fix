@@ -38,11 +38,11 @@
                     <?php
                     foreach ($data_barang as $barang) {
                       ?>
-                      <tr>
+                      <tr class="text-center">
                         <td><?php echo $barang->nama_barang; ?></td>
                         <td><?php echo $barang->nama_jenis_barang; ?></td>
                         <td>
-                          <a onclick="edit(<?php echo $barang->kode_barang; ?>)" id="custId" data-toggle="modal" data-id="<?php echo $barang->kode_barang;?>" data-toggle="tooltip" title="Aksi" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                          <a onclick="edit(<?php echo $barang->kode_barang; ?>)" id="custId" data-toggle="modal" data-id="<?php echo $barang->kode_barang;?>" data-toggle="tooltip" title="Aksi" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                       </tr>
 

@@ -37,6 +37,11 @@ class Man_sarprasC extends CI_Controller {
 		$this->load->view('man_sarpras/index_template', $data);
 	}
 
+	public function detail_progress_barang($id){ //menampilkan modal dengan isi dari detail progres barang.php
+		$data['detail_progress_barang']	= $this->Man_sarprasM->get_detail_progress_barang_by_id($id)->result();
+		$this->load->view('man_sarpras/detail_progress_barang', $data);
+	}
+
 	public function kelola_barang(){ //halaman kelola barang(man_sarpras)
 		$data['title'] = "Kelola Barang | Manajer Sarana dan Prasarana";
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];      //get data diri buat nampilin nama di pjok kanan
@@ -396,6 +401,7 @@ class Man_sarprasC extends CI_Controller {
 		$kode_unit = $this->session->userdata('kode_unit');
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pojok kanan
 		$this->data['data_ajukan_barang'] = $this->Man_sarprasM->get_ajukan_barang()->result();	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
+		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
 		$this->data['data_pimpinan'] = $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->no_identitas;	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
 		$this->data['pilihan_barang'] = $this->UserM->get_pilihan_barang()->result();
 		$data['body'] = $this->load->view('man_sarpras/ajukan_barang_content', $this->data, true);
