@@ -59,10 +59,10 @@
 
                      <td>
                       <?php
-                      $progress_saya = $Man_sarprasM->get_progress_barang_by_id($barang->kode_item_pengajuan, $data_diri->no_identitas);
+                      $progress_saya = $Man_sarprasM->get_progress_barang_by_id($barang->kode_item_pengajuan, $data_diri->id_pengguna);
 
                       if($progress_saya == 1){?>
-                      <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $barang->kode_item_pengajuan;?>" data-toggle="tooltip" title="Aksi" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
+                      <a href="#" data-toggle="modal" data-target="#modal-<?php echo $barang->kode_item_pengajuan; ?>"><span class="glyphicon glyphicon-pencil"></span></a>
                       <?php
                     }else{?>
                     <a class="btn btn-success btn-sm" disabled><span class="glyphicon glyphicon-pencil"></span></a>
@@ -71,14 +71,94 @@
                   ?>
                 </td>
               </tr>
-              <?php
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
+              <!-- Modal Terima Item Pengajuan -->
+              <div aria-hidden="true" aria-labelledby="myModal" role="dialog" tabindex="-1" id="modal-<?php echo $barang->kode_item_pengajuan; ?>" class="modal fade">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      <h4 class="modal-title" id="titlemodal">Edit Pengajuan Barang</h4>
+                    </div>
+                    <form class="form-horizontal" action="<?php echo base_url('Man_sarprasC/post_persetujuan_barang');?>" method="post">
+                      <div class="modal-body">
+                        <div class="form-group">
+                          <label class="col-lg-4 col-sm-2 control-label" for="jenis_barang"> Barang :</label>
+                          <div class="col-lg-8">
+                           <select class="form-control" name="kode_barang" id="kode_barang">
+                            <option value="">---- Pilih Barang ---- </option>
+                            <?php 
+                            foreach ($pilihan_barang as $pilihan_barang) {
+                              ?>
+                              <option value="<?php echo $pilihan_barang->kode_barang ;?>"> <?php echo $pilihan_barang->nama_barang ;?> </option>
+                              <option <?php if ($pilihan_barang->kode_jenis_barang == $barang->kode_jenis_barang) {echo "selected=selected";} ?> value="<?php echo $pilihan_barang->kode_jenis_barang ?>"><?php echo $pilihan_barang->nama_jenis_barang ?> disabled</option>
+                              <?php
+                            }
+                            ?>
+                          </select>
+                          <span class="text-danger" style="color: red;"><?php echo form_error('kode_barang'); ?></span>  
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" type="hidden" id="id_pengguna" name="id_pengguna" value="<?php echo $data_diri->id_pengguna;?>" required> <!-- ambil id_pengguna_jabatan berdasarkan user yang login-->
+                        <label class="col-lg-4 col-sm-2 control-label">Nama Item Pengajuan Barang :</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" placeholder="<?php echo $barang->nama_item_pengajuan ?>" disabled>
+                        </div>
+                      </div>
+                      <input type="hidden" class="form-control" placeholder id="tgl_item_pengajuan" name="tgl_item_pengajuan" required value="<?php echo date('Y-m-d');?>">
+                      <input type="hidden" class="form-control" placeholder id="pimpinan" name="pimpinan" required value="<?php echo $data_pimpinan;?>">
+                      <div class="form-group">
+                        <label class="col-lg-4 col-sm-2 control-label">url :</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" id="url" name="url" placeholder="<?php echo $barang->url ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 col-sm-2 control-label">Harga Satuan :</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" id="harga_satuan" name="harga_satuan" placeholder="<?php echo $barang->harga_satuan ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 col-sm-2 control-label">Merk :</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" id="merk" name="merk" placeholder="<?php echo $barang->merk ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 col-sm-2 control-label">Jumlah :</label>
+                        <div class="col-lg-8">
+                          <input type="text" class="form-control" id="jumlah" name="jumlah" placeholder="<?php echo $barang->jumlah ?>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-lg-4 col-sm-2 control-label">Unggah Foto :</label>
+                        <div class="col-lg-8">
+                          <input type="file" id="file_gambar" name="file_gambar" >
+                        </div>
+                      </div>           
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button class="btn btn-info" type="submit"> Simpan </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"> Batal</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END Modal Terima Item Pengajuan-->
+
+          <?php
+        }
+        ?>
+      </tbody>
+    </table>
   </div>
+</div>
+</div>
 </div>
 </div>
 <!-- project team & activity end -->
@@ -222,8 +302,8 @@
     });
   });
 </script>
-  <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
-  <script type="text/javascript">
+<script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
+<script type="text/javascript">
     // js progress barang
     $(document).ready(function(){
       $('#myModal2').on('show.bs.modal', function (e) {

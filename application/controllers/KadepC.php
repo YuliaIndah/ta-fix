@@ -48,6 +48,7 @@ class KadepC extends CI_Controller {
 		$data['title'] = "Persetujuan Kegiatan Pegawai | Kepala Departemen";
 		$this->data['data_pengajuan_kegiatan_pegawai'] = $this->UserM->get_data_pengajuan($kode_jenis_kegiatan)->result();
 		$this->data['UserM'] = $this->UserM ;	
+		$this->data['cek_max_pegawai'] = $this->UserM->cek_max_pegawai();	
 		$this->data['KadepM'] = $this->KadepM ;	
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
 		$data['body'] = $this->load->view('kadep/persetujuan_kegiatan_pegawai_content', $this->data, true) ;

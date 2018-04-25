@@ -40,6 +40,7 @@ class SekdepC extends CI_Controller {
 		$no_identitas = $this->session->userdata('no_identitas');
 		$data['title'] = "Persetujuan Kegiatan Mahasiswa | Sekretaris Departemen";
 		$this->data['data_pengajuan_kegiatan'] = $this->UserM->get_data_pengajuan($kode_jenis_kegiatan)->result();
+		$this->data['cek_max'] = $this->UserM->cek_max();	
 		$this->data['UserM'] 	= $this->UserM ;
 		$this->data['SekdepM'] 	= $this->SekdepM ;
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan

@@ -19,6 +19,33 @@ class Staf_keuanganC extends CI_Controller {
 		$this->load->view('staf_keuangan/index_template', $data);
 	}
 
+	public function status_kegiatan_pegawai(){ //halaman index Sekretaris Departemen (dashboard)
+		$kode_jenis_kegiatan = 1; //kegiatan mahasiswa
+		$this->data['data_pengajuan_kegiatan'] = $this->UserM->get_data_pengajuan($kode_jenis_kegiatan)->result();
+		$this->data['UserM'] = $this->UserM ;
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "status Kegiatan Pegawai| Staf Keuangan";
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['body'] = $this->load->view('staf_keuangan/status_kegiatan_pegawai_content', $this->data, true) ;
+		$this->load->view('staf_keuangan/index_template', $data);
+	}
+	public function status_kegiatan_mahasiswa(){ //halaman index Sekretaris Departemen (dashboard)
+		$kode_jenis_kegiatan = 2; //kegiatan mahasiswa
+		$this->data['data_pengajuan_kegiatan'] = $this->UserM->get_data_pengajuan($kode_jenis_kegiatan)->result();
+		$this->data['UserM'] = $this->UserM ;
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['title'] = "status Kegiatan Mahasiswa| Staf Keuangan";
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$data['body'] = $this->load->view('staf_keuangan/status_kegiatan_mahasiswa_content', $this->data, true) ;
+		$this->load->view('staf_keuangan/index_template', $data);
+	}
+
+	public function detail_kegiatan($id){ //menampilkan modal dengan isi dari detail_pengajuan.php
+		$data['detail_kegiatan'] = $this->UserM->get_data_pengajuan_by_id_staf($id)->result()[0];
+		$data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->load->view('staf_keuangan/detail_kegiatan', $data);
+	}
+
 	public function edit_data_diri($no_identitas){ //edit data diri
 		$this->form_validation->set_rules('jen_kel', 'Jenis Kelamin','required');
 		$this->form_validation->set_rules('tmp_lahir', 'Tempat Lahir','required');
@@ -70,7 +97,7 @@ class Staf_keuanganC extends CI_Controller {
 
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
 		$this->data['data_kegiatan'] = $this->UserM->get_kegiatan_pegawai()->result();	//menampilkan kegiatan yang diajukan user sebagai pegwai
-		$this->data['id_pimpinan'] 		= $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->no_identitas; //ambil id pimpinan
+		$this->data['id_pimpinan'] 		= $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->id_pengguna; //ambil id pimpinan
 		$data['body'] = $this->load->view('staf_keuangan/pengajuan_kegiatan_content', $this->data, true);
 		$this->load->view('staf_keuangan/index_template', $data);
 	}

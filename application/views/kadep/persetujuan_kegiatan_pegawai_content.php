@@ -75,22 +75,22 @@
                         <td class="text-center"><?php echo $new_tgl_pengajuan; ?></td>
                         <td class="text-center">
                           <div class="relative">
-                             <small class="kecil"><strong><?php echo $new_tgl_kegiatan?></strong></small>
-                            <small class="kecil">sampai</small>
-                            <small class="kecil"><strong><?php echo $new_tgl_selesai; ?></strong></small>
-                          </div>
-                        </td>
-                        <td><?php echo $kegiatan->dana_diajukan;?></td>
-                        <?php $link = base_url()."assets/file_upload/".$kegiatan->nama_file;?>
-                        <td class="text-center"><a target="_blank" href="<?php echo $link?>"><span><img src="<?php echo base_url()?>assets/image/logo/pdf.svg" style="height: 30px;"></span></a></td>
-                        <td class="text-center">
-                          <?php 
-                          if($progress_tolak == 1){
-                            ?>
-                            <a class="label label-danger" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><b>Selesai</b></a>
-                            <?php
-                          }else{
-                           if($progress == 1){
+                           <small class="kecil"><strong><?php echo $new_tgl_kegiatan?></strong></small>
+                           <small class="kecil">sampai</small>
+                           <small class="kecil"><strong><?php echo $new_tgl_selesai; ?></strong></small>
+                         </div>
+                       </td>
+                       <td><?php echo $kegiatan->dana_diajukan;?></td>
+                       <?php $link = base_url()."assets/file_upload/".$kegiatan->nama_file;?>
+                       <td class="text-center"><a target="_blank" href="<?php echo $link?>"><span><img src="<?php echo base_url()?>assets/image/logo/pdf.svg" style="height: 30px;"></span></a></td>
+                       <td class="text-center">
+                        <?php 
+                        if($progress_tolak == 1){
+                          ?>
+                          <a class="label label-danger" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><b>Selesai</b></a>
+                          <?php
+                        }else{
+                         if($progress == 1){
                             if($unit->kode_unit == 1 && $jabatan->kode_jabatan == 1){ //kepala departemen
                              ?>
                              <a class="label label-success" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Selesai</a>
@@ -99,11 +99,13 @@
                             ?>
                             <a class="label label-info" id="custID" data-toggle="modal" title="klik untuk melihat detail progress">Baru</a>
                             <?php
-                          }elseif ($unit->kode_unit != 1 && $jabatan->kode_jabatan == 1) { //kepala/manajer
+                          }elseif (($unit->kode_unit != 1 && $jabatan->kode_jabatan == 1) || ($unit->kode_unit != 1 && $jabatan->kode_jabatan == 3)) { //kepala/manajer
                             ?>
                             <a class="label label-info" id="custID" data-toggle="modal" title="klik untuk melihat detail progress">Baru</a>
                             <?php
                           }else{
+                            // echo $unit->kode_unit;
+                            // echo $jabatan->kode_jabatan;
                             ?>
                             <a class="label label-default" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Proses</a>
                             <?php
@@ -122,39 +124,84 @@
                     </td>
                     <td class="text-center">
                       <?php 
-                      $kode = $kegiatan->kode_kegiatan;
-                      $id   = $data_diri->id_pengguna;
-                      $own  = $UserM->get_own_progress($kode, $id);
-                        // print_r($own);
-                      if($own > 0){
+                      $own_id     = $data_diri->id_pengguna; //id sendri
+                      $max        = $cek_max_pegawai->ranking; //id pengguna rank tertinggi
+                      $id_max     = $UserM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
+
+                      $kode = $kegiatan->kode_kegiatan; 
+                      $own  = $UserM->get_own_progress($kode, $own_id);
+
+                      if($own_id == $id_max){
+                       if($own > 0){ //SUDAH INPUT 
                         ?>
                         <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
                           <?php
-                        }elseif ($own == 0) {
-                          ?>
-                          <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
-                          <?php
-                        }
-                        ?>
+                        }else{
+                         $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                         if($progress_tolak == 1){
+                           ?>
+                           <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                           <?php
+                         }else{
+                          $acc_atasan = $UserM->get_own_progress($kode, $kegiatan->pimpinan);
+                          if ($acc_atasan > 0){
+                           ?>
+                           <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                           <?php
+                         }else{
+                           ?>
+                           <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Belum Acc atasan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                           <?php
+                         }
+                       }
+                     }
 
-                      </td>
-                    </tr>
+                   }else{
+                      $own_rank   = $UserM->cek_rank_by_id_pegawai($own_id)->ranking; //rank sendiri
+                      $rank_next  = ((int)$own_rank + 1); //id yang punya rank sendri + 1
+                      $id_next    = $UserM->cek_id_by_rank_pegawai($rank_next)->id_pengguna; //id yang ranknya ranksendiri + 1
+                      $progress_id_next = $UserM->get_own_progress($kegiatan->kode_kegiatan, $id_next); //progress id yang ranknya ranksendiri + 1
+                      if($progress_id_next == "1"){
+                       if($own > 0){?>
+                       <a href="#" disabled title="Sudah"><span class="glyphicon glyphicon-ok"></a>
+                        <?php
+                      }else{
+                       $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                       if ($progress_tolak == 1) {
+                         ?>
+                         <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                         <?php
+                       }else{
+                         ?>
+                         <a href="#myModal" id="custId" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Masukkan Persetujuan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
+                         <?php 
+                       }
+                     }
+                   }else{
+                    ?>
+                    <a href="#" id="custId" disabled data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" data-toggle="tooltip" title="Selesai" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                     <?php
                   }
-                  ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="text-center">
-    <div class="credits">
-      <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                }
+                ?>
+              </td>
+            </tr>
+            <?php
+          }
+          ?>
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
+</div>
+</div>
+</section>
+<div class="text-center">
+  <div class="credits">
+    <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+  </div>
+</div>
 </section>
 <!-- modal detail pengajuan -->
 <div class="modal fade" id="myModal" role="dialog">
