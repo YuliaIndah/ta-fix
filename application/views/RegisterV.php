@@ -10,7 +10,6 @@
 
 	<!-- CSS -->
 	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >  
 	<link href="<?php echo base_url();?>assets/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets_2/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<?php echo base_url()?>assets_2/font-awesome/css/font-awesome.min.css">
@@ -40,18 +39,21 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Unduh Prosedur<span class="caret"></span></a>
+					<li class="dropdown" style="">
+						<a href="#" class="dropdown-toggle btn " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Unduh Prosedur<span class="caret"></span></a>
 						<ul class="dropdown-menu">
+							<?php $link_peg = base_url()."assets/file_prosedur/".$prosedur_pegawai[0]->nama_file;?>
 							<li class="dropdown-header">Kegiatan</li>
-							<li><a href="#">Pengajuan Kegiatan Mahasiswa</a></li>
-							<li><a href="#">Pengajuan Kegiatan Pegawai</a></li>
+							<?php $link_mhs = base_url()."assets/file_prosedur/".$prosedur_mahasiswa[0]->nama_file;?>
+							<li><a href="<?php echo $link_mhs?>" target="_blank">Pengajuan Kegiatan Mahasiswa</a></li>
+							<li><a href="<?php echo $link_peg?>" target="_blank">Pengajuan Kegiatan Pegawai</a></li>
 							<li role="separator" class="divider"></li>
 							<li class="dropdown-header">Barang</li>
-							<li><a href="#">Pengadaan Barang</a></li>
+							<?php $link_brg = base_url()."assets/file_prosedur/".$prosedur_barang[0]->nama_file;?>
+							<li><a href="<?php echo $link_brg;?>" target="_blank">Pengadaan Barang</a></li>
 						</ul>
 					</li>
-					<li><a href="<?php echo site_url('LoginC/')?>">Masuk</a></li>
+					<li><a href="<?php echo base_url('LoginC/')?>">Masuk</a></li>
 				</ul>
 			</div><!--/.nav-collapse -->
 		</div>
@@ -62,6 +64,7 @@
 
 		<div class="inner-bg">
 			<div class="container">
+				?>
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3 form-box" style="margin-top: 3%; ">
 						<form role="form" action="<?php echo base_url(); ?>UserC/daftar" method="post" class="registration-form">
@@ -129,7 +132,7 @@
 										<!-- <label>Alamat</label> -->
 										<textarea name="alamat" value="" class="form-control" placeholder="Alamat" rows="2" required></textarea>
 									</div>
-									<button type="button" class="btn btn-next pull-right">Next</button>
+									<button type="button" class="btn btn-next">Next</button>
 								</div>
 							</fieldset>
 
@@ -186,7 +189,7 @@
 											<input type="password" class="form-control" id="cn-pswd" name="confirmpswd" placeholder="konfirmasi Kata Sandi..." required>  
 											<span class="text-danger"><?php echo form_error('confirmpswd'); ?></span>
 										</div>
-										<button type="button" class="btn btn-previous pull-left">Previous</button>
+										<button type="button" class="btn btn-previous">Previous</button>
 										<button type="submit" class="btn pull-right">Daftar</button>
 									</div>
 								</div>
@@ -204,7 +207,6 @@
 	<script src="<?php echo base_url()?>assets_2/js/jquery-1.11.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="<?php echo base_url();?>assets/js/jquery-ui-1.10.4.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
 	<script src="<?php echo base_url()?>assets_2/bootstrap/js/bootstrap.min.js"></script>
 	<script src="<?php echo base_url()?>assets_2/js/jquery.backstretch.min.js"></script>
 	<script src="<?php echo base_url()?>assets_2/js/retina-1.1.0.min.js"></script>
@@ -218,25 +220,13 @@
 				return false;
 			return true;
 		}
+		$(function() {
+			$("#tgl_lahir").datepicker({
+				maxDate : "-20yy",
+				dateFormat: 'dd-mm-yy'
+			});
+		});
+	</script>
+</body>
 
-  // $(function() {
-  //   $( "#tgl_lahir" ).datepicker({ 
-  //     minDate: $minDate, 
-  //     maxDate: new Date()
-  //   });
-  // });
-  $(function() {
-  	$("#tgl_lahir").datepicker({
-  		maxDate : "-20yy",
-  		dateFormat: 'dd-mm-yy'
-  	});
-  });
-</script>
-
-        <!--[if lt IE 10]>
-            <script src="assets_2/js/placeholder.js"></script>
-        <![endif]-->
-
-    </body>
-
-    </html>
+</html>

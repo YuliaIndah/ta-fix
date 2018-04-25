@@ -29,7 +29,6 @@
        <div class="card mb-3">
         <div class="card-header">
           <div class="card-body">
-            <!-- <a href="<?php echo site_url('KadepC/pengajuan_kegiatan_pegawai')?>" class="btn btn-info"><i class="icon_plus_alt2"> </i> Ajukan Kegiatan</a> -->
             <a class="btn btn-info" data-toggle="modal" data-target="#myModal"><i class="icon_plus_alt2"> </i> Ajukan Kegiatan </a>
 
             <div class="table-responsive">

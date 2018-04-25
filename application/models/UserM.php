@@ -27,6 +27,26 @@
 		$this->db->where('md5(email)', $key);
 		return $this->db->update('pengguna', $data);  
 	}
+
+	public function get_pengguna_by_email($key){
+		// $this->db->select('')
+		$this->db->where('md5(email)', $key);
+		$query = $this->db->get('pengguna');
+		return $query;
+	}
+
+	public function delete_pengguna_by_email($key){
+		$this->db->where('md5(email)', $key);
+		$this->db->delete('pengguna');
+		return TRUE;
+	}
+
+	public function delete_data_diri_by_no_identitas($no_identitas){
+		$this->db->where('no_identitas', $no_identitas);
+		$this->db->delete('data_diri');
+		return TRUE;
+	}
+
 	public function insert_data_resend($data, $id_pengguna){ //post resend data email
 		$this->db->where('id_pengguna',$id_pengguna); 
 		return $this->db->update('pengguna',$data);
@@ -150,7 +170,7 @@
 
 	public function upload(){ // Fungsi untuk upload file ke folder
 		$config['upload_path'] = './assets/file_upload';
-		$config['allowed_types'] = 'pdf|jpg|PNG|JPG|jpeg';
+		$config['allowed_types'] = 'pdf';
 		$config['max_size']	= '';
 		$config['remove_space'] = TRUE;
 		$config['encrypt_name'] = TRUE;
@@ -165,6 +185,33 @@
 			$return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
 			return $return;
 		}
+	}
+
+	public function upload_prosedur(){ // Fungsi untuk upload file ke folder
+		$config['upload_path'] = './assets/file_prosedur';
+		$config['allowed_types'] = 'pdf';
+		$config['remove_space'] = TRUE;
+		$config['encrypt_name'] = TRUE;
+
+		$this->load->library('upload', $config); // Load konfigurasi uploadnya
+		if($this->upload->do_upload('file_upload')){ // Lakukan upload dan Cek jika proses upload berhasil
+			// Jika berhasil :
+			$return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+			return $return;
+		}else{
+			// Jika gagal :
+			$return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+			return $return;
+		}
+	}
+
+	public function save_prosedur($upload, $data_prosedur){ // Fungsi untuk menyimpan data ke database
+		$data = array(
+			'tipe_doc'		=> $data_prosedur['tipe_doc'],
+			'nama_file' 	=> $upload['file']['file_name'],
+			'size' 			=> $upload['file']['file_size']
+		);
+		$this->db->insert('dokumen_prosedur', $data);
 	}
 
 	public function save($upload,$insert_id){ // Fungsi untuk menyimpan data ke database
@@ -309,6 +356,48 @@
 			return null;
 		}
 	}
+	public function get_prosedur_pegawai(){
+		$this->db->select('*');
+		$this->db->from('dokumen_prosedur');
+		$this->db->where('status = "aktif"');
+		$this->db->where('tipe_doc = "pegawai"');
+		$this->db->order_by('created_at','DESC');
+		if($query = $this->db->get()){
+		return $query;
+		}else{
+			return NULL;
+		}
+	}
+	public function get_prosedur_mahasiswa(){
+		$this->db->select('*');
+		$this->db->from('dokumen_prosedur');
+		$this->db->where('status = "aktif"');
+		$this->db->where('tipe_doc = "mahasiswa"');
+		$this->db->order_by('created_at','DESC');
+		if($query = $this->db->get()){
+		return $query;
+		}else{
+			return NULL;
+		}
+	}
+	public function get_prosedur_barang(){
+		$this->db->select('*');
+		$this->db->from('dokumen_prosedur');
+		$this->db->where('status = "aktif"');
+		$this->db->where('tipe_doc = "barang"');
+		$this->db->order_by('created_at','DESC');
+		if($query = $this->db->get()){
+		return $query;
+		}else{
+			return NULL;
+		}
+	}
+
+	public function get_prosedur(){
+		$this->db->order_by('created_at','DESC');
+		$query = $this->db->get('dokumen_prosedur');
+		return $query;
+	}
 	// =================BARANG================
 
 	function get_barang(){ //menampilkan data seluruh barang
@@ -361,6 +450,13 @@
 		}
 	} 
 
+	public function get_pengguna_by_id($id_pengguna){
+		$this->db->select('status_email');
+		$this->db->from('pengguna');
+		$this->db->where('id_pengguna', $id_pengguna);
+		return $this->db->get();
+	}
+	
 	public function get_pilihan_barang(){ // untuk menampilkan dropdown pilihan barang di halaman tambah pengajuan barang
 		$this->db->select('*');
 		$this->db->from('barang');
@@ -377,6 +473,16 @@
 		$this->db->where('progress.kode_nama_progress = "1"');//diterima
 		$query = $this->db->get();
 		return $query->num_rows();
+	}
+
+	public function get_progress_who($id){
+		$this->db->select('id_pengguna');
+		$this->db->from('progress');
+		$this->db->where('progress.kode_fk', $id);
+		$this->db->where('progress.jenis_progress = "kegiatan"');
+		$this->db->where('progress.kode_nama_progress = "1"');//diterima
+		return $query = $this->db->get()->result();
+		// return $query->num_rows();
 	}
 
 	public function get_detail_progress($id){

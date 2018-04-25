@@ -13,23 +13,23 @@
         </div>
         <div class="panel-body">
           <div class="col-sm-10">
-           <form>
+           <form role="form" method="post" action="<?php echo base_url();?>KadepC/post_ganti_password">
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label">Kata Sandi Lama</label>
               <div class="col-sm-4">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Kata Sandi Lama">
+                <input type="email" class="form-control" id="sandi_lama" name="sandi_lama" placeholder="Kata Sandi Lama">
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-2 col-form-label">Kata Sandi Baru</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Kata Sandi Baru">
+                <input type="password" class="form-control" id="sandi_baru" name="sandi_baru" placeholder="Kata Sandi Baru">
               </div>
             </div>
             <div class="form-group row">
               <label for="inputPassword3" class="col-sm-2 col-form-label">Konfirmasi Kata Sandi Baru</label>
               <div class="col-sm-4">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Konfirmasi Kata Sandi Baru">
+                <input type="password" class="form-control" id="konfirmasi_sandi_baru" name="konfirmasi_sandi_baru" placeholder="Konfirmasi Kata Sandi Baru">
               </div>
             </div>
             <div class="form-group row">

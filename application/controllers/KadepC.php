@@ -27,6 +27,52 @@ class KadepC extends CI_Controller {
 		$this->load->view('kadep/index_template', $data);
 	}
 
+	public function prosedur(){ //halaman index kadep (dashboard)
+		$data['title'] = "Prosedur | Kepala Departemen";
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0];  	//get data diri buat nampilin nama di pjok kanan
+		$this->data['data_prosedur'] = $this->UserM->get_prosedur()->result();
+		$data['body'] = $this->load->view('kadep/prosedur_content', $this->data, true) ;
+		$this->load->view('kadep/index_template', $data);
+	}
+
+	public function aktif_pro($kode_doc){ //aktifasi akun pengguna
+		$this->KadepM->aktif_pro($kode_doc);
+		redirect('KadepC/prosedur');
+	}
+
+    public function non_aktif_pro($kode_doc){ //deaktifasi akun pengguna
+    	$this->KadepM->non_aktif_pro($kode_doc);
+    	redirect('KadepC/prosedur');
+    }
+
+	public function post_prosedur(){ //fungsi post pengajuan kegiatan pegawai
+		$this->form_validation->set_rules('tipe_doc', 'Tipe Dokumen','required');
+		if($this->form_validation->run() == FALSE){
+			$this->session->set_flashdata('error','Data Prosedur anda tidak berhasil ditambahkan');
+			redirect('KadepC/prosedur');
+		}else{
+
+			$tipe_doc 	       		= $_POST['tipe_doc'];
+			$status 				= $_POST['status'];
+			
+			$data_prosedur = array(
+				'tipe_doc' 			=> $tipe_doc,
+				'status' 			=> $status);
+
+			
+			$upload = $this->UserM->upload_prosedur(); // lakukan upload file dengan memanggil function upload yang ada di UserM.php
+			if($upload['result'] == "success"){ // Jika proses upload sukses
+				$this->UserM->save_prosedur($upload, $data_prosedur); // Panggil function save_prosedur yang ada di UserM.php untuk menyimpan data ke database
+			}else{ // Jika proses upload gagal
+				$data['message'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+				$this->session->set_flashdata('error','Data Pengajuan Kegiatan anda tidak berhasil ditambahkan');
+				redirect('KadepC/prosedur');
+			}
+			$this->session->set_flashdata('sukses','Data Pengajuan Kegiatan anda berhasil ditambahkan');
+			redirect('KadepC/prosedur');
+		}
+	}
+
 	public function persetujuan_kegiatan_mahasiswa(){ //halaman persetujuan kegiatan mahasiswa (kadep)
 		// menampilkan kegiatan mahasiswa yang telah di beri porgress oleh manajer Keuangan
 		$id_pengguna = $this->session->userdata('id_pengguna');

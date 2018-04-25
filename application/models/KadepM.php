@@ -15,6 +15,24 @@ class KadepM extends CI_Model{
 		return $query;
 	}
 
+	public function aktif_pro($kode_doc){ //aktifasi akun pengguna
+		$status = "aktif";
+		$data = array('status' =>$status,);
+
+		$this->db->where('kode_doc', $kode_doc);
+		$this->db->update('dokumen_prosedur', $data);
+		return;
+	}
+
+	public function non_aktif_pro($kode_doc){ //deaktifasi akun pengguna
+		$status = "tidak";
+		$data = array('status' =>$status,);
+
+		$this->db->where('kode_doc', $kode_doc);
+		$this->db->update('dokumen_prosedur', $data);
+		return;
+	}
+
 	public function aktif($no_identitas){ //aktifasi akun pengguna
 		$status = "aktif";
 		$data = array('status' =>$status,);

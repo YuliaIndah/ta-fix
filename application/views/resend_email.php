@@ -20,8 +20,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h1>Mohon Periksa Email anda . . </h1>
 			</div>
 			<div>
+				<?php 
+				$data=$this->session->flashdata('sukses');
+				if($data!=""){ ?>
+				<div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div>
+				<?php } ?>
+				<?php 
+				$data2=$this->session->flashdata('error');
+				if($data2!=""){ ?>
+				<div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
+				<?php } ?>
 				<?php echo $this->session->flashdata('msg'); 
-								// echo $_SESSION['no_identitas'];
 				?>						
 				<p> Email Salah ? Silahkan masukkan kembali <a href="#" name="email" onclick="formResend()">email</a> anda . . .</p>
 			</div>

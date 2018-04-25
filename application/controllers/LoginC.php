@@ -14,6 +14,9 @@ class LoginC extends CI_Controller {
 	}
 	public function index() //load captcha
 	{
+		$data['prosedur_pegawai'] = $this->UserM->get_prosedur_pegawai()->result();
+		$data['prosedur_mahasiswa'] = $this->UserM->get_prosedur_mahasiswa()->result();
+		$data['prosedur_barang'] = $this->UserM->get_prosedur_barang()->result();
 		$data['cap_img'] = $this->LoginM->make_captcha();
 		$this->load->view('LoginV', $data);
 	}

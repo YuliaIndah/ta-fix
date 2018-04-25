@@ -184,6 +184,7 @@
         $('#nama_progress').DataTable();
         $('#persetujuan_kegiatan').DataTable();
         $('#example').DataTable();
+        $('#prosedur').DataTable();
 
       } 
       );

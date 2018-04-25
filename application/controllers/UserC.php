@@ -8,10 +8,13 @@
   }    
   public function halaman_daftar() //get option jabatan
   {
-    $data['jabatan'] = $this->UserM->get_pilihan_jabatan();
-    $data['unit'] = $this->UserM->get_pilihan_unit();
-    $this->load->view('RegisterV',$data);
-  }   
+   $data['prosedur_pegawai'] = $this->UserM->get_prosedur_pegawai()->result();
+   $data['prosedur_mahasiswa'] = $this->UserM->get_prosedur_mahasiswa()->result();
+   $data['prosedur_barang'] = $this->UserM->get_prosedur_barang()->result();
+   $data['jabatan'] = $this->UserM->get_pilihan_jabatan();
+   $data['unit'] = $this->UserM->get_pilihan_unit();
+   $this->load->view('RegisterV',$data);
+ }   
   public function daftar()  //post pendaftaran
   {  
     $this->form_validation->set_rules('no_identitas', 'Nomor Identitas', 'required|is_unique[pengguna.no_identitas]');  
@@ -48,6 +51,9 @@
       $email_encryption = md5($email);  
       $status_email   = "0";
       $status         = "tidak aktif"; 
+
+      $exp_date = date('Y-m-d', strtotime(' + 1 days'));
+
       $data_pengguna  = array(
         'no_identitas'        => $no_identitas,
         'kode_unit'           => $kode_unit,
@@ -55,6 +61,7 @@
         'email'               => $email,  
         'password'            => $passhash,  
         'status'              => $status,  
+        'exp_date'            => $exp_date,
         'status_email'        => $status_email);  
 
       $data_diri      = array(  
@@ -133,16 +140,34 @@ public function post_resend_email(){
     $data_resend = array(
       'email'             => $email);
 
+    $status = $this->UserM->get_pengguna_by_id($id_pengguna)->result()[0]->status_email;
 
+    if($status == "1"){
+     $this->session->set_flashdata('error','Email anda sudah berhasil dikonfirmasi. Silahkan <a href="'.base_url('LoginC').'">masuk</a> untuk melanjutkan...');
+     redirect('UserC/resend_email');
+   }else{
     if($this->UserM->insert_data_resend($data_resend, $id_pengguna)){
       $this->sendemail($email, $email_encryption);
+      // $this->session->set_flashdata('sukses','Email anda berhasil sudah berhasil dikirim ulang. Silahkan cek email anda : <b>'.$email.'</b> dan klik tautan yang telah dikirimkan untuk <b>konfirmasi pendaftaran....');
     }else{
       echo "email gagal";
-    }
+    } 
   }
+}
 }
 
   public function confirmation($key){  //post link konfirmasi
+   $exp_date     = $this->UserM->get_pengguna_by_email($key)->result()[0]->exp_date; //ambil data exp by email
+   $status_email = $this->UserM->get_pengguna_by_email($key)->result()[0]->status_email; //ambil data status by email
+   $no_identitas = $this->UserM->get_pengguna_by_email($key)->result()[0]->no_identitas; //ambil no identitas by email
+   $now_date     = date('Y-m-d');
+
+   if($now_date > $exp_date && $status_email =='0'){ //jika konfirmasi diatas exp date maka akan hapus data diri dan pengguna si empunya email
+    $this->UserM->delete_pengguna_by_email($key);
+    $this->UserM->delete_data_diri_by_no_identitas($no_identitas);
+    $this->session->set_flashdata('error','Tautan konfirmasi email anda sudah kadaluwarsa, Silahkan mencoba daftar kembali ...');
+    redirect('LoginC');
+  }else{
     if($this->UserM->verifyemail($key)){  
       $this->session->set_flashdata('sukses','Email anda berhasil dikonfirmasi. Silahkan masuk ...');
       redirect('LoginC');
@@ -150,5 +175,6 @@ public function post_resend_email(){
       $this->session->set_flashdata('error','Email anda belum berhasil dikonfirmasi. Silahkan mencoba kembali ...');
       redirect('LoginC');
     }  
-  }  
+  }
+}  
 }  

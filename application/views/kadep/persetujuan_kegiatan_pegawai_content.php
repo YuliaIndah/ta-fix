@@ -85,27 +85,27 @@
                        <td class="text-center"><a target="_blank" href="<?php echo $link?>"><span><img src="<?php echo base_url()?>assets/image/logo/pdf.svg" style="height: 30px;"></span></a></td>
                        <td class="text-center">
                         <?php 
+                        $progress       = $UserM->get_progress($kegiatan->kode_kegiatan);
+                        $progress_tolak = $UserM->get_progress_tolak($kegiatan->kode_kegiatan);
+                        $own_id     = $data_diri->id_pengguna; //id sendri
+                        $max        = $cek_max_pegawai->ranking; //id pengguna rank tertinggi
+                        $id_max     = $UserM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
+                        $kode = $kegiatan->kode_kegiatan; 
+                        $own  = $UserM->get_own_progress($kode, $own_id);
+                          // echo $progress;
+                          // echo $progress_tolak;
                         if($progress_tolak == 1){
                           ?>
                           <a class="label label-danger" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress"><b>Selesai</b></a>
                           <?php
                         }else{
                          if($progress == 1){
-                            if($unit->kode_unit == 1 && $jabatan->kode_jabatan == 1){ //kepala departemen
-                             ?>
-                             <a class="label label-success" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Selesai</a>
-                             <?php
-                           }elseif ($unit->kode_unit == 1 && $jabatan->kode_jabatan == 2){ //sekretaris departemen
+                          $input_id = $UserM->get_progress_who($kode)[0]->id_pengguna;//jika yang input dia sendiri
+                          if($input_id == $own_id && $id_max == $own_id){
                             ?>
-                            <a class="label label-info" id="custID" data-toggle="modal" title="klik untuk melihat detail progress">Baru</a>
-                            <?php
-                          }elseif (($unit->kode_unit != 1 && $jabatan->kode_jabatan == 1) || ($unit->kode_unit != 1 && $jabatan->kode_jabatan == 3)) { //kepala/manajer
-                            ?>
-                            <a class="label label-info" id="custID" data-toggle="modal" title="klik untuk melihat detail progress">Baru</a>
+                            <a class="label label-success" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Selesai</a>
                             <?php
                           }else{
-                            // echo $unit->kode_unit;
-                            // echo $jabatan->kode_jabatan;
                             ?>
                             <a class="label label-default" href="#modal_progress" id="custID" data-toggle="modal" data-id="<?php echo $kegiatan->kode_kegiatan;?>" title="klik untuk melihat detail progress">Proses</a>
                             <?php
@@ -123,14 +123,7 @@
                       ?>
                     </td>
                     <td class="text-center">
-                      <?php 
-                      $own_id     = $data_diri->id_pengguna; //id sendri
-                      $max        = $cek_max_pegawai->ranking; //id pengguna rank tertinggi
-                      $id_max     = $UserM->cek_id_by_rank_pegawai($max)->id_pengguna; //id yang rank nya max
-
-                      $kode = $kegiatan->kode_kegiatan; 
-                      $own  = $UserM->get_own_progress($kode, $own_id);
-
+                      <?php
                       if($own_id == $id_max){
                        if($own > 0){ //SUDAH INPUT 
                         ?>
