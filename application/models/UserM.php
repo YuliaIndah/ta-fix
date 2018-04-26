@@ -205,6 +205,49 @@
 		}
 	}
 
+	public function upload_profil(){ // Fungsi untuk upload file ke folder
+		$config['upload_path'] = './assets/image/profil';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['remove_space'] = TRUE;
+		$config['encrypt_name'] = TRUE;
+
+		$this->load->library('upload', $config); // Load konfigurasi uploadnya
+		if($this->upload->do_upload('foto_profil')){ // Lakukan upload dan Cek jika proses upload berhasil
+			// Jika berhasil :
+			$file_data = $this->upload->data();
+
+			$max_height = 300;
+			$max_width = 300;
+			if ($file_data['image_width']>$max_width || $file_data['image_height']>$max_height)
+			{
+			    $configResize = array(
+			                        'source_image' => $file_data['upload_path'],
+			                        'width' => $max_width,
+			                        'height' => $max_height,
+			                        'maintain_ratio' => TRUE
+			                );
+
+			      $this->load->library('image_lib',$configResize);
+			      $this->image_lib->resize();  
+			 }
+
+			// $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+			// return $return;
+		}else{
+			// Jika gagal :
+			$return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+			return $return;
+		}
+	}
+
+	public function simpan_upload($id_pengguna, $gambar){ // Fungsi untuk menyimpan data ke database
+		$data = array(
+			'file_profil' 	=> $gambar
+		);
+		$this->db->where('id_pengguna', $id_pengguna);
+		$this->db->update('pengguna', $data);
+	}
+
 	public function save_prosedur($upload, $data_prosedur){ // Fungsi untuk menyimpan data ke database
 		$data = array(
 			'tipe_doc'		=> $data_prosedur['tipe_doc'],

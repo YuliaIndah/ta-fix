@@ -14,10 +14,21 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <div class="card mb-3">
-          <div class="card-header">
-            <div class="card-body">
-              <div class="table-responsive">
+       <?php
+       // var_dump($data_kegiatan); 
+       $data=$this->session->flashdata('sukses');
+       if($data!=""){ ?>
+       <div class="alert alert-success"><strong>Sukses! </strong> <?=$data;?></div>
+       <?php } ?>
+       <?php 
+       $data2=$this->session->flashdata('error');
+       if($data2!=""){ ?>
+       <div class="alert alert-danger"><strong> Error! </strong> <?=$data2;?></div>
+       <?php } ?>
+       <div class="card mb-3">
+        <div class="card-header">
+          <div class="card-body">
+            <div class="table-responsive">
                <!--  <?php
                   var_dump($data_pengguna);
                   ?> -->
@@ -69,7 +80,7 @@
                           if($pengguna->status == "tidak aktif"){
                             ?>
                             <td>
-                              <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('KadepC/aktif')."/".$pengguna->no_identitas;?>"><span class="glyphicon glyphicon-ok"></span></a>
+                              <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" href="<?php echo base_url('KadepC/aktif')."/".$pengguna->id_pengguna;?>"><span class="glyphicon glyphicon-ok"></span></a>
                               <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" disabled><span class="glyphicon glyphicon-remove"></span></a> 
                             </td>
                             <?php
@@ -77,32 +88,31 @@
                             ?>
                             <td>
                               <a  data-toggle='tooltip' title='Aktif' class="btn btn-info btn-sm" disabled><span class="glyphicon glyphicon-ok"></span></a>
-                              <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('KadepC/non_aktif')."/".$pengguna->no_identitas;?>" ><span class="glyphicon glyphicon-remove"></span></a> 
+                              <a data-toggle='tooltip' title='Non-aktif' class="btn btn-danger btn-sm" href="<?php echo base_url('KadepC/non_aktif')."/".$pengguna->id_pengguna;?>" ><span class="glyphicon glyphicon-remove"></span></a> 
                               <?php
                             }
-
                             ?>
+                          </td>
+                        </tr>
 
-                          </tr>
-
-                          <?php
+                        <?php
                         # code...
-                        }
-                        ?>
-                      </tbody>
-                    </table>
-                  </div>
+                      }
+                      ?>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- batas content -->
-
-        </section>
-        <div class="text-center">
-          <div class="credits">
-            <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-          </div>
         </div>
+
+        <!-- batas content -->
+
       </section>
+      <div class="text-center">
+        <div class="credits">
+          <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+    </section>

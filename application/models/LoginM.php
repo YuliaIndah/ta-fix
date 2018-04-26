@@ -4,7 +4,6 @@ class LoginM extends CI_Model{
 		parent:: __construct();
 		$this->load->database();
 	}
-
 	public function ceknum($email, $password){ //cek akun di db pengguna jabatan (berapa rows)
 		$this->db->where('email', $email);
 		$this->db->where('password', md5($password));

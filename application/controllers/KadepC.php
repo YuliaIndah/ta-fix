@@ -73,6 +73,43 @@ class KadepC extends CI_Controller {
 		}
 	}
 
+	function upload_image(){
+        $config['upload_path'] = './assets/image/profil'; //path folder
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
+        $config['encrypt_name'] = TRUE; //Enkripsi nama yang terupload
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+        if(!empty($_FILES['foto_profil']['name'])){
+
+        	if ($this->upload->do_upload('foto_profil')){
+        		$gbr = $this->upload->data();
+                //Compress Image
+        		$config['image_library']='gd2';
+        		$config['source_image']='./assets/image/profil/'.$gbr['file_name'];
+        		$config['create_thumb']= FALSE;
+        		$config['maintain_ratio']= FALSE;
+        		$config['quality']= '50%';
+        		$config['width']= 100;
+        		$config['height']= 100;
+        		$config['new_image']= './assets/image/profil/'.$gbr['file_name'];
+        		$this->load->library('image_lib', $config);
+        		$this->image_lib->resize();
+
+        		$gambar=$gbr['file_name'];
+        		$id_pengguna=$this->input->post('id_pengguna');
+        		$this->UserM->simpan_upload($id_pengguna,$gambar);
+        		$this->session->set_flashdata('sukses','Foto berhasil diunggah');
+        		redirect('KadepC/data_diri');
+        		// echo "Image berhasil diupload";
+        	}
+
+        }else{
+        	$this->session->set_flashdata('error','Foto tidak berhasil diunggah');
+        	redirect('KadepC/data_diri');
+        }
+
+    }
+
 	public function post_ganti_password(){
 		$this->form_validation->set_rules('sandi_lama', 'Sandi Lama', 'trim|required|min_length[6]|max_length[50]');
 		$this->form_validation->set_rules('sandi_baru', 'Sandi Baru', 'trim|required|min_length[6]|max_length[50]');
@@ -142,14 +179,24 @@ class KadepC extends CI_Controller {
 		$this->load->view('kadep/index_template', $data);
 	}
 
-	public function aktif($no_identitas){ //aktifasi akun pengguna
-		$this->KadepM->aktif($no_identitas);
-		redirect('KadepC/pengguna');
+	public function aktif($id_pengguna){ //aktifasi akun pengguna
+		if($this->KadepM->aktif($id_pengguna)){
+			$this->session->set_flashdata('sukses','Akun berhasil diaktifkan');	
+			redirect('KadepC/pengguna');
+		}else{
+			$this->session->set_flashdata('error','Akun tidak berhasil diaktifkan');	
+			redirect('KadepC/pengguna');
+		}
 	}
 
-    public function non_aktif($no_identitas){ //deaktifasi akun pengguna
-    	$this->KadepM->non_aktif($no_identitas);
-    	redirect('KadepC/pengguna');
+    public function non_aktif($id_pengguna){ //deaktifasi akun pengguna
+    	if($this->KadepM->non_aktif($id_pengguna)){
+    		$this->session->set_flashdata('sukses','Akun berhasil di non-aktifkan');	
+    		redirect('KadepC/pengguna');
+    	}else{
+    		$this->session->set_flashdata('error','Akun tidak berhasil di non-aktifkan');	
+    		redirect('KadepC/pengguna');
+    	}
     }
 
  	// sebagai pegawai
