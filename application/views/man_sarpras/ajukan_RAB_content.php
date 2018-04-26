@@ -79,24 +79,49 @@
                   ?>
                   <td><?php echo $total;?></td>
                   <td><?php echo $barang_setuju->status_pengajuan;?></td>
-                  <td><center>
-                    <div class="btn-group">
-                      <a href="#" data-toggle="modal" data-target="" title="Pilih" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok"></span></a>
-                      <a href="" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="Tunda" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-pushpin"></span></a>
-                    </div>
-                  </center>
-                </td>
-              </tr>
-
-              <?php
-            }
-            ?>
-          </tbody>
-        </table>
+                  <?php
+                  if($barang_setuju->status_pengajuan == "proses"){
+                    ?>
+                    <td>
+                      <center>
+                        <a class="btn btn-success" href="<?php echo base_url('Man_sarprasC/setuju')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"><i class="glyphicon glyphicon-ok"> </i> Ajukan </a></span>
+                        <a class="btn btn-warning" href="<?php echo base_url('Man_sarprasC/tunda')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"><i class="glyphicon glyphicon-repeat"></i> Tunda </a></span>
+                      </center>
+                    </td>
+                    <?php
+                  }elseif ($barang_setuju->status_pengajuan == "tunda") {
+                    ?>
+                    <td>
+                      <center>
+                        <a class="btn btn-success" href="<?php echo base_url('Man_sarprasC/setuju')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"><i class="glyphicon glyphicon-ok"> </i> Ajukan </a></span>
+                        <a class="btn btn-warning" href="<?php echo base_url('Man_sarprasC/tunda')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia" disabled><i class="glyphicon glyphicon-repeat"></i> Tunda </a></span>
+                      </center>
+                    </td>
+                    <?php
+                  } elseif ($barang_setuju->status_pengajuan == "pengajuan") {
+                    ?>
+                    <td>
+                      <center>
+                        <a class="btn btn-success" href="<?php echo base_url('Man_sarprasC/setuju')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia" disabled><i class="glyphicon glyphicon-ok"> </i> Ajukan </a></span>
+                        <a class="btn btn-warning" href="<?php echo base_url('Man_sarprasC/tunda')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"><i class="glyphicon glyphicon-repeat"></i> Tunda </a></span>
+                      </center>
+                    </td>
+                    <?php
+                  }
+                  ?>
+                </tr>
+                <?php
+              }
+              ?>
+            </tbody>
+          </table>
+          <center>
+            <a class="btn btn-info" href="<?php echo base_url('Man_sarprasC/tunda')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"> Buat Data Pengajuan </a></span>
+          </center>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 </section>
 <div class="text-center">

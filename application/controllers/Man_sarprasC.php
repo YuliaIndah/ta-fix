@@ -239,6 +239,26 @@ class Man_sarprasC extends CI_Controller {
 		$this->load->view('man_sarpras/index_template', $data);
 	}
 
+	public function setuju($kode){ //mengubah status pengajuan menjadi diajukan karena barang disetujui untuk diajukan
+		if($this->Man_sarprasM->setuju($kode)){
+			$this->session->set_flashdata('sukses','Data anda tidak berhasil disimpan');
+			redirect('Man_sarprasC/ajukan_RAB');
+		}else{
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');	
+			redirect('Man_sarprasC/ajukan_RAB');
+		}
+	}
+
+	public function tunda($kode){ //mengubah status pengajuan menjadi tunda karena barang belum bisa diajukan untuk diajukan
+		if($this->Man_sarprasM->tunda($kode)){
+			$this->session->set_flashdata('sukses','Data anda tidak berhasil disimpan');
+			redirect('Man_sarprasC/ajukan_RAB');
+		}else{
+			$this->session->set_flashdata('error','Data anda tidak berhasil disimpan');
+			redirect('Man_sarprasC/ajukan_RAB');
+		}
+	}
+
 	// sebagai pegawai =============================================================================================================
 	public function pengajuan_kegiatan(){ //halaman kegiatan pegawai
 		$data['title'] = "Pengajuan Kegiatan Pegawai | Manajer Sarana dan Prasarana";
@@ -402,8 +422,9 @@ class Man_sarprasC extends CI_Controller {
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pojok kanan
 		$this->data['data_ajukan_barang'] = $this->Man_sarprasM->get_ajukan_barang()->result();	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
 		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
-		$this->data['data_pimpinan'] = $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->no_identitas;	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
-		$this->data['pilihan_barang'] = $this->UserM->get_pilihan_barang()->result();
+		$this->data['data_pimpinan'] = $this->UserM->get_id_pimpinan($kode_unit)->result()[0]->id_pengguna;	//menampilkan pengajuan barag yang diajukan user sebagai pegwai
+		$this->data['pilihan_barang'] = $this->Man_sarprasM->get_pilihan_barang()->result();
+		$this->data['pilihan_barang_tambah'] = $this->Man_sarprasM->get_pilihan_barang()->result();
 		$data['body'] = $this->load->view('man_sarpras/ajukan_barang_content', $this->data, true);
 		$this->load->view('man_sarpras/index_template', $data);
 	}
