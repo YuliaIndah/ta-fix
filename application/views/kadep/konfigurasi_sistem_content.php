@@ -62,9 +62,9 @@
                 <thead>
                   <tr>
                     <th style="width: 10px;">No</th>
-                    <th style="width: 10px;">ID</th>
+                    <!-- <th style="width: 10px;">ID</th> -->
                     <th>Nama Jabatan</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th style="width: 50px;">Aksi</th>
                   </tr>
                 </thead>
@@ -76,9 +76,9 @@
                   ?>
                   <tr>
                     <td><?php echo $i;?></td>
-                    <td><?php echo $jabatan->kode_jabatan;?></td>
+                    <!-- <td><?php echo $jabatan->kode_jabatan;?></td> -->
                     <td><?php echo $jabatan->nama_jabatan;?></td>
-                    <td><?php echo "status blm ada";?></td>
+                    <!-- <td><?php echo "status blm ada";?></td> -->
                     <td class="text-center"> 
                       <a href="#modal_jabatan" id="custId" data-toggle="modal" data-id="<?php echo $jabatan->kode_jabatan;?>" data-toggle="tooltip" title="Edit Jabatan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                     </td>
@@ -148,9 +148,9 @@
             <thead>
               <tr>
                 <th style="width: 10px;">No</th>
-                <th style="width: 10px;">ID</th>
+                <!-- <th style="width: 10px;">ID</th> -->
                 <th> Nama Unit</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
                 <th style="width: 50px;">Aksi</th>
               </tr>
             </thead>
@@ -162,9 +162,9 @@
                 ?>
                 <tr>
                   <td><?php echo $i;?></td>
-                  <td><?php echo $unit->kode_unit;?></td>
+                  <!-- <td><?php echo $unit->kode_unit;?></td> -->
                   <td><?php echo $unit->nama_unit;?></td>
-                  <td><?php echo "status";?></td>
+                  <!-- <td><?php echo "status";?></td> -->
                   <td class="text-center"> 
                     <a href="#modal_unit" id="custId" data-toggle="modal" data-id="<?php echo $unit->kode_unit;?>" data-toggle="tooltip" title="Edit Unit" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                   </td>
@@ -233,9 +233,9 @@
           <thead>
             <tr>
               <th style="width: 10px;">No</th>
-              <th style="width: 10px;">ID</th>
+              <!-- <th style="width: 10px;">ID</th> -->
               <th>Nama Jenis Barang</th>
-              <th>Status</th>
+              <!-- <th>Status</th> -->
               <th style="width: 50px;">Aksi</th>
             </tr>
           </thead>
@@ -247,9 +247,9 @@
               ?>
               <tr>
                 <td><?php echo $i;?></td>
-                <td><?php echo $jenis_barang->kode_jenis_barang;?></td>
+                <!-- <td><?php echo $jenis_barang->kode_jenis_barang;?></td> -->
                 <td><?php echo $jenis_barang->nama_jenis_barang;?></td>
-                <td><?php echo "status";?></td>
+                <!-- <td><?php echo "status";?></td> -->
                 <td class="text-center"> 
                   <a href="#modal_jenis_barang" id="custId" data-toggle="modal" data-id="<?php echo $jenis_barang->kode_jenis_barang;?>" data-toggle="tooltip" title="Edit Jenis Barang" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                 </td>
@@ -318,9 +318,9 @@
         <thead>
           <tr>
             <th style="width: 10px;">No</th>
-            <th style="width: 10px;">ID</th>
+            <!-- <th style="width: 10px;">ID</th> -->
             <th>Nama Jenis Kegiatan</th>
-            <th>Status</th>
+            <!-- <th>Status</th> -->
             <th style="width: 50px;">Aksi</th>
           </tr>
         </thead>
@@ -332,9 +332,9 @@
             ?>
             <tr>
               <td><?php echo $i;?></td>
-              <td><?php echo $jenis_kegiatan->kode_jenis_kegiatan;?></td>
+              <!-- <td><?php echo $jenis_kegiatan->kode_jenis_kegiatan;?></td> -->
               <td><?php echo $jenis_kegiatan->nama_jenis_kegiatan;?></td>
-              <td><?php echo "status";?></td>
+              <!-- <td><?php echo "status";?></td> -->
               <td class="text-center"> 
                 <a href="#modal_jenis_kegiatan" id="custId" data-toggle="modal" data-id="<?php echo $jenis_kegiatan->kode_jenis_kegiatan;?>" data-toggle="tooltip" title="Edit Jenis Kegiatan" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
               </td>
@@ -402,9 +402,9 @@
             <thead>
               <tr>
                 <th style="width: 10px;">No</th>
-                <th style="width: 10px;">ID</th>
+                <!-- <th style="width: 10px;">ID</th> -->
                 <th>Nama Progress</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
                 <th style="width: 50px;">Aksi</th>
               </tr>
             </thead>
@@ -416,9 +416,9 @@
                 ?>
                 <tr>
                   <td><?php echo $i;?></td>
-                  <td><?php echo $nama_progress->kode_nama_progress;?></td>
+                  <!-- <td><?php echo $nama_progress->kode_nama_progress;?></td> -->
                   <td><?php echo $nama_progress->nama_progress;?></td>
-                  <td><?php echo "status";?></td>
+                  <!-- <td><?php echo "status";?></td> -->
                   <td class="text-center"> 
                     <a href="#modal_nama_progress" id="custId" data-toggle="modal" data-id="<?php echo $nama_progress->kode_nama_progress;?>" data-toggle="tooltip" title="Edit Nama Progress" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-edit"></span></a>
                   </td>
@@ -486,13 +486,13 @@
          <table id="persetujuan_kegiatan" class="table table-striped table-bordered" cellspacing="0" width="100%">
           <thead>
             <tr>
-              <th style="width: 10px;">No</th>
-              <th style="width: 10px;">Ranking</th>
-              <th>Nama Pengguna</th>
-              <th>Jabatan</th>
-              <th>Jenis Kegiatan</th>
-              <th>Status</th>
-              <th style="width: 50px;">Aksi</th>
+              <th class="text-center" style="width: 10px;">No</th>
+              <th class="text-center" style="width: 10px;">Ranking</th>
+              <th class="text-center">Nama Pengguna</th>
+              <th class="text-center">Jabatan</th>
+              <th class="text-center">Jenis Kegiatan</th>
+              <!-- <th class="text-center">Status</th> -->
+              <th class="text-center" style="width: 50px;">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -502,12 +502,12 @@
               $i++;
               ?>
               <tr>
-                <td><?php echo $i;?></td>
-                <td><?php echo $persetujuan_kegiatan->ranking;?></td>
-                <td><?php echo $persetujuan_kegiatan->nama;?></td>
-                <td><?php echo $persetujuan_kegiatan->nama_jabatan." ".$persetujuan_kegiatan->nama_unit;?></td>
-                <td><?php echo $persetujuan_kegiatan->nama_jenis_kegiatan;?></td>
-                <td><?php echo "status";?></td>
+                <td class="text-center"><?php echo $i;?></td>
+                <td class="text-center"><?php echo $persetujuan_kegiatan->ranking;?></td>
+                <td class="text-center"><?php echo $persetujuan_kegiatan->nama;?></td>
+                <td class="text-center"><?php echo $persetujuan_kegiatan->nama_jabatan." ".$persetujuan_kegiatan->nama_unit;?></td>
+                <td class="text-center"><?php echo $persetujuan_kegiatan->nama_jenis_kegiatan;?></td>
+                <!-- <td class="text-center"><?php echo "status";?></td> -->
                 <td class="text-center"> 
                   <a href="<?php echo base_url('KadepC/hapus/'.$persetujuan_kegiatan->kode_acc_kegiatan);?>"  onClick="return confirm('Anda yakin akan menghapus data ini?')" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="Hapus Persetujuan Kegiatan" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-trash"></span></a>
                 </td>
@@ -664,4 +664,5 @@
               }
             });
           });
+    });
         </script>

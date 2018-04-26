@@ -363,7 +363,7 @@
 		$this->db->where('tipe_doc = "pegawai"');
 		$this->db->order_by('created_at','DESC');
 		if($query = $this->db->get()){
-		return $query;
+			return $query;
 		}else{
 			return NULL;
 		}
@@ -375,7 +375,7 @@
 		$this->db->where('tipe_doc = "mahasiswa"');
 		$this->db->order_by('created_at','DESC');
 		if($query = $this->db->get()){
-		return $query;
+			return $query;
 		}else{
 			return NULL;
 		}
@@ -387,7 +387,7 @@
 		$this->db->where('tipe_doc = "barang"');
 		$this->db->order_by('created_at','DESC');
 		if($query = $this->db->get()){
-		return $query;
+			return $query;
 		}else{
 			return NULL;
 		}
@@ -575,5 +575,17 @@
 		}else{
 			return "data tidak ada";
 		}	
+	}
+
+	public function cek_row($id_pengguna, $password){ //cek akun di db pengguna jabatan (berapa rows)
+		$this->db->where('id_pengguna', $id_pengguna);
+		$this->db->where('password', md5($password));
+		return $this->db->get('pengguna')->num_rows();
+	}
+
+	public function update_pass($id_pengguna, $data){
+		$this->db->where('id_pengguna', $id_pengguna);
+		$this->db->update('pengguna', $data);
+		return TRUE;
 	}
 }  

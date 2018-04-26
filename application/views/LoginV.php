@@ -111,7 +111,12 @@
 
               <div class="form-group">
                 <label class="sr-only" for="form-password">Sandi</label>
-                <input type="password" name="password" class="form-password form-control" placeholder="Masukkan Password" required oninvalid="this.setCustomValidity('Password tidak boleh kosong')" oninput="setCustomValidity('')">
+                <!-- <div class="input-group"> -->
+                  <input type="password" name="password" class="form-password form-control" placeholder="Masukkan Password" required oninvalid="this.setCustomValidity('Password tidak boleh kosong')" oninput="setCustomValidity('')">
+                  <!-- <span class="input-group-btn"> -->
+                    <!-- <button class="btn reveal" type="button"><i class="glyphicon glyphicon-eye-open"></i></button> -->
+                    <!-- </span> -->
+                    <!-- </div> -->
               </div>
 
               <div class="form-group">
@@ -139,6 +144,16 @@
 </div>             
 </body>
 </html>
+<!-- <script type="text/javascript">
+  $(".reveal").on('click',function() {
+    var $pwd = $(".pwd");
+    if ($pwd.attr('type') === 'password') {
+      $pwd.attr('type', 'text');
+    } else {
+      $pwd.attr('type', 'password');
+    }
+  });
+</script> -->
 
 <script src="<?php echo base_url()?>assets_2/js/jquery-1.11.1.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

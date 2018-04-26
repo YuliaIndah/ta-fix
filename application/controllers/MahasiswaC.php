@@ -138,4 +138,38 @@ class MahasiswaC extends CI_Controller {
 		$data['detail_progress']	= $this->UserM->get_detail_progress($id)->result();
 		$this->load->view('mahasiswa/detail_progress', $data);
 	}
+
+	public function post_ganti_password(){
+		$this->form_validation->set_rules('sandi_lama', 'Sandi Lama', 'trim|required|min_length[6]|max_length[50]');
+		$this->form_validation->set_rules('sandi_baru', 'Sandi Baru', 'trim|required|min_length[6]|max_length[50]');
+		$this->form_validation->set_rules('konfirmasi_sandi_baru', 'Konfirmasi Sandi Baru', 'trim|required|min_length[6]|max_length[50]|matches[sandi_baru]'); 
+		if ($this->form_validation->run() == FALSE)  
+		{  
+			redirect_back();
+		}else{ 
+			$sandi_lama   = $_POST['sandi_lama'];  
+			$sandi_baru   = $_POST['sandi_baru'];  
+			$id_pengguna  = $_POST['id_pengguna']; 
+
+			$sandi_baru   = $_POST['sandi_baru'];  
+			$passhash     = md5($sandi_baru);
+
+			$data_update  = array(
+				'password'        => $passhash);
+
+			$ada = $this->UserM->cek_row($id_pengguna, $sandi_lama);
+			if($ada > 0){
+				if($this->UserM->update_pass($id_pengguna, $data_update)){
+					$this->session->set_flashdata('sukses','Data berhasil dirubah');
+					redirect('Mahasiswa_C/pengaturan_akun');
+				}else{
+					$this->session->set_flashdata('error','Data tidak berhasil dirubah');
+					redirect('Mahasiswa_C/pengaturan_akun');
+				}
+			}else{
+				$this->session->set_flashdata('error','Kata sandi lama tidak cocok');
+				redirect('Mahasiswa_C/pengaturan_akun');
+			}	
+		}
+	}
 }

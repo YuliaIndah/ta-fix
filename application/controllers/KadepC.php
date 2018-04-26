@@ -59,7 +59,7 @@ class KadepC extends CI_Controller {
 				'tipe_doc' 			=> $tipe_doc,
 				'status' 			=> $status);
 
-			
+
 			$upload = $this->UserM->upload_prosedur(); // lakukan upload file dengan memanggil function upload yang ada di UserM.php
 			if($upload['result'] == "success"){ // Jika proses upload sukses
 				$this->UserM->save_prosedur($upload, $data_prosedur); // Panggil function save_prosedur yang ada di UserM.php untuk menyimpan data ke database
@@ -70,6 +70,40 @@ class KadepC extends CI_Controller {
 			}
 			$this->session->set_flashdata('sukses','Data Pengajuan Kegiatan anda berhasil ditambahkan');
 			redirect('KadepC/prosedur');
+		}
+	}
+
+	public function post_ganti_password(){
+		$this->form_validation->set_rules('sandi_lama', 'Sandi Lama', 'trim|required|min_length[6]|max_length[50]');
+		$this->form_validation->set_rules('sandi_baru', 'Sandi Baru', 'trim|required|min_length[6]|max_length[50]');
+		$this->form_validation->set_rules('konfirmasi_sandi_baru', 'Konfirmasi Sandi Baru', 'trim|required|min_length[6]|max_length[50]|matches[sandi_baru]'); 
+		if ($this->form_validation->run() == FALSE)  
+		{  
+			redirect_back();
+		}else{ 
+			$sandi_lama   = $_POST['sandi_lama'];  
+			$sandi_baru   = $_POST['sandi_baru'];  
+			$id_pengguna  = $_POST['id_pengguna']; 
+
+			$sandi_baru   = $_POST['sandi_baru'];  
+			$passhash     = md5($sandi_baru);
+
+			$data_update  = array(
+				'password'        => $passhash);
+
+			$ada = $this->UserM->cek_row($id_pengguna, $sandi_lama);
+			if($ada > 0){
+				if($this->UserM->update_pass($id_pengguna, $data_update)){
+					$this->session->set_flashdata('sukses','Data berhasil dirubah');
+					redirect('KadepC/pengaturan_akun');
+				}else{
+					$this->session->set_flashdata('error','Data tidak berhasil dirubah');
+					redirect('KadepC/pengaturan_akun');
+				}
+			}else{
+				$this->session->set_flashdata('error','Kata sandi lama tidak cocok');
+				redirect('KadepC/pengaturan_akun');
+			}	
 		}
 	}
 
