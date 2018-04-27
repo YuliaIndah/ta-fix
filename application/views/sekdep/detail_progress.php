@@ -13,55 +13,55 @@ foreach ($detail_progress as $progress=>$key) {
                                 // echo $key->kode_nama_progress;
                                 if($key->kode_nama_progress == 1){?>
                                 <div class="text-center">
-                                <span class="glyphicon glyphicon-ok"></span>
+                                    <span class="glyphicon glyphicon-ok"></span>
                                 </div>
                                 <span><?php echo $key->nama_progress;?></span>
                                 <?php
-                                }else{?>
-                                <div class="text-center">
-                                      <span class="glyphicon glyphicon-remove"></span>
-                                </div>
-                                <span><?php echo $key->nama_progress;?></span>
-                                <?php
-                                }
+                            }else{?>
+                            <div class="text-center">
+                              <span class="glyphicon glyphicon-remove"></span>
+                          </div>
+                          <span><?php echo $key->nama_progress;?></span>
+                          <?php
+                      }
 
-                                ?>
+                      ?>
 
-                            </div>
-                        <div class="user-detail">
-                            <h5 class="handle"><?php echo $key->nama;?></h5>
-                            <div class="post-meta">
-                                <div class="asker-meta">
-                                    <span class="qa-message-what"></span>
-                                    <span class="qa-message-who">
-                                        <span class="qa-message-who-pad">Sebagai </span>
-                                        <span class="qa-message-who-data"><?php echo $key->nama_jabatan." ".$key->nama_unit;?></span>
-                                    </span>
-                                </div>
-                                <span class="qa-message-when">
-                                    <span class="qa-message-when-data">
-                                    <p class="label label-danger">
-                                        <?php
-                                        $tgl =  $key->waktu_progress;
-                                        $new_tgl = date('d-m-Y', strtotime($tgl));
-                                        echo $new_tgl;
-                                        ?>
-                                    </p>
-                                    </span>
-                                    <span class="qa-message-when">
-                                        <small class="label label-info"><?php echo $key->waktu_progress;?></small>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="qa-message-content">
-                      <?php echo $key->komentar;?>
                   </div>
-              </div>
+                  <div class="user-detail">
+                    <h5 class="handle"><?php echo $key->nama;?></h5>
+                    <div class="post-meta">
+                        <div class="asker-meta">
+                            <span class="qa-message-what"></span>
+                            <span class="qa-message-who">
+                                <span class="qa-message-who-pad">Sebagai </span>
+                                <span class="qa-message-who-data"><?php echo $key->nama_jabatan." ".$key->nama_unit;?></span>
+                            </span>
+                        </div>
+                        <span class="qa-message-when">
+                            <span class="qa-message-when-data">
+                                <p class="label label-danger">
+                                    <?php
+                                    $tgl =  $key->waktu_progress;
+                                    $new_tgl = date('d-m-Y', strtotime($tgl));
+                                    echo $new_tgl;
+                                    ?>
+                                </p>
+                            </span>
+                            <span class="qa-message-when">
+                                <small class="label label-info"><?php echo $key->waktu_progress;?></small>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="qa-message-content">
+              <?php echo $key->komentar;?>
           </div>
       </div>
   </div>
+</div>
+</div>
 </div>
 <?php
 }
@@ -176,7 +176,7 @@ foreach ($detail_progress as $progress=>$key) {
     line-height: 22px;
 }
 img {
- min-height: 40px;
- max-height: 40px;
+   min-height: 40px;
+   max-height: 40px;
 }
 </style>

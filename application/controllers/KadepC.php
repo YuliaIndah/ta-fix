@@ -74,9 +74,14 @@ class KadepC extends CI_Controller {
 	}
 
 	function upload_image(){
+		$id_pengguna=$this->input->post('id_pengguna');
+
         $config['upload_path'] = './assets/image/profil'; //path folder
         $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
-        $config['encrypt_name'] = TRUE; //Enkripsi nama yang terupload
+        $config['encrypt_name'] = FALSE; //Enkripsi nama yang terupload
+        $config['overwrite'] = TRUE;
+        $new_name = md5($id_pengguna);
+        $config['file_name'] = $new_name;
         $this->load->library('upload');
         $this->upload->initialize($config);
         if(!empty($_FILES['foto_profil']['name'])){
@@ -93,10 +98,10 @@ class KadepC extends CI_Controller {
         		$config['height']= 100;
         		$config['new_image']= './assets/image/profil/'.$gbr['file_name'];
         		$this->load->library('image_lib', $config);
+        		// $this->image_lib->crop();
         		$this->image_lib->resize();
 
         		$gambar=$gbr['file_name'];
-        		$id_pengguna=$this->input->post('id_pengguna');
         		$this->UserM->simpan_upload($id_pengguna,$gambar);
         		$this->session->set_flashdata('sukses','Foto berhasil diunggah');
         		redirect('KadepC/data_diri');
@@ -110,39 +115,39 @@ class KadepC extends CI_Controller {
 
     }
 
-	public function post_ganti_password(){
-		$this->form_validation->set_rules('sandi_lama', 'Sandi Lama', 'trim|required|min_length[6]|max_length[50]');
-		$this->form_validation->set_rules('sandi_baru', 'Sandi Baru', 'trim|required|min_length[6]|max_length[50]');
-		$this->form_validation->set_rules('konfirmasi_sandi_baru', 'Konfirmasi Sandi Baru', 'trim|required|min_length[6]|max_length[50]|matches[sandi_baru]'); 
-		if ($this->form_validation->run() == FALSE)  
-		{  
-			redirect_back();
-		}else{ 
-			$sandi_lama   = $_POST['sandi_lama'];  
-			$sandi_baru   = $_POST['sandi_baru'];  
-			$id_pengguna  = $_POST['id_pengguna']; 
+    public function post_ganti_password(){
+    	$this->form_validation->set_rules('sandi_lama', 'Sandi Lama', 'trim|required|min_length[6]|max_length[50]');
+    	$this->form_validation->set_rules('sandi_baru', 'Sandi Baru', 'trim|required|min_length[6]|max_length[50]');
+    	$this->form_validation->set_rules('konfirmasi_sandi_baru', 'Konfirmasi Sandi Baru', 'trim|required|min_length[6]|max_length[50]|matches[sandi_baru]'); 
+    	if ($this->form_validation->run() == FALSE)  
+    	{  
+    		redirect_back();
+    	}else{ 
+    		$sandi_lama   = $_POST['sandi_lama'];  
+    		$sandi_baru   = $_POST['sandi_baru'];  
+    		$id_pengguna  = $_POST['id_pengguna']; 
 
-			$sandi_baru   = $_POST['sandi_baru'];  
-			$passhash     = md5($sandi_baru);
+    		$sandi_baru   = $_POST['sandi_baru'];  
+    		$passhash     = md5($sandi_baru);
 
-			$data_update  = array(
-				'password'        => $passhash);
+    		$data_update  = array(
+    			'password'        => $passhash);
 
-			$ada = $this->UserM->cek_row($id_pengguna, $sandi_lama);
-			if($ada > 0){
-				if($this->UserM->update_pass($id_pengguna, $data_update)){
-					$this->session->set_flashdata('sukses','Data berhasil dirubah');
-					redirect('KadepC/pengaturan_akun');
-				}else{
-					$this->session->set_flashdata('error','Data tidak berhasil dirubah');
-					redirect('KadepC/pengaturan_akun');
-				}
-			}else{
-				$this->session->set_flashdata('error','Kata sandi lama tidak cocok');
-				redirect('KadepC/pengaturan_akun');
-			}	
-		}
-	}
+    		$ada = $this->UserM->cek_row($id_pengguna, $sandi_lama);
+    		if($ada > 0){
+    			if($this->UserM->update_pass($id_pengguna, $data_update)){
+    				$this->session->set_flashdata('sukses','Data berhasil dirubah');
+    				redirect('KadepC/pengaturan_akun');
+    			}else{
+    				$this->session->set_flashdata('error','Data tidak berhasil dirubah');
+    				redirect('KadepC/pengaturan_akun');
+    			}
+    		}else{
+    			$this->session->set_flashdata('error','Kata sandi lama tidak cocok');
+    			redirect('KadepC/pengaturan_akun');
+    		}	
+    	}
+    }
 
 	public function persetujuan_kegiatan_mahasiswa(){ //halaman persetujuan kegiatan mahasiswa (kadep)
 		// menampilkan kegiatan mahasiswa yang telah di beri porgress oleh manajer Keuangan

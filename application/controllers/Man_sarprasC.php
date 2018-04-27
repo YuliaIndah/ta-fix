@@ -580,5 +580,45 @@ class Man_sarprasC extends CI_Controller {
 
 	}
 	
-	
+	function upload_image(){
+		$id_pengguna=$this->input->post('id_pengguna');
+
+        $config['upload_path'] = './assets/image/profil'; //path folder
+        $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
+        $config['encrypt_name'] = FALSE; //Enkripsi nama yang terupload
+        $config['overwrite'] = TRUE;
+        $new_name = md5($id_pengguna);
+        $config['file_name'] = $new_name;
+        $this->load->library('upload');
+        $this->upload->initialize($config);
+        if(!empty($_FILES['foto_profil']['name'])){
+
+        	if ($this->upload->do_upload('foto_profil')){
+        		$gbr = $this->upload->data();
+                //Compress Image
+        		$config['image_library']='gd2';
+        		$config['source_image']='./assets/image/profil/'.$gbr['file_name'];
+        		$config['create_thumb']= FALSE;
+        		$config['maintain_ratio']= FALSE;
+        		$config['quality']= '50%';
+        		$config['width']= 100;
+        		$config['height']= 100;
+        		$config['new_image']= './assets/image/profil/'.$gbr['file_name'];
+        		$this->load->library('image_lib', $config);
+        		// $this->image_lib->crop();
+        		$this->image_lib->resize();
+
+        		$gambar=$gbr['file_name'];
+        		$this->UserM->simpan_upload($id_pengguna,$gambar);
+        		$this->session->set_flashdata('sukses','Foto berhasil diunggah');
+        		redirect('Man_sarprasC/data_diri');
+        		// echo "Image berhasil diupload";
+        	}
+
+        }else{
+        	$this->session->set_flashdata('error','Foto tidak berhasil diunggah');
+        	redirect('Man_sarprasC/data_diri');
+        }
+
+    }
 }

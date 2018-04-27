@@ -55,107 +55,117 @@
           <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
               <span class="profile-ava">
-                <img alt="" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/14713754_1299932453374328_2078707598612152427_n.jpg?oh=9d0b1568abe4454dd39499ae6931978e&oe=5B32A923" style="height: 35px;">
-              </span>
-              <span class="username"><?php echo $data_diri->nama;?></span>
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu extended logout">
-              <div class="log-arrow-up"></div>
-              <li class="eborder-top">
-                <a href="<?php echo site_url('SekdepC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
-              </li>
-              <li>
-                <a href="<?php echo site_url('SekdepC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
-              </li>
-              <li>
-                <a href="<?php echo site_url('LoginC/logout')?>"><i class="icon_key_alt"></i> Log Out</a>
-              </li>
-            </ul>
-          </li>
-          <!-- user login dropdown end -->
-        </ul>
-        <!-- notificatoin dropdown end-->
-      </div>
-    </header>      
-    <!--header end-->
-    <!--sidebar start-->
-    <aside>
-      <div id="sidebar"  class="nav-collapse ">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu">                
-          <li>
-            <a href="<?php echo site_url('SekdepC/')?>">
-              <i class="icon_house_alt"></i>
-              <span>Beranda</span>
-            </a>
-          </li>
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-              <i class="icon_bag_alt"></i>
-              <span>Persetujuan</span>
-              <span class="menu-arrow arrow_carrot-right"></span>
-            </a>
-            <ul class="sub">
-              <li> <a href="<?php echo site_url('SekdepC/persetujuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
-            </ul>
+               <?php
+               if($data_diri->file_profil){
+                ?>
+                <img style="height: 35px;" src="<?php echo base_url()."assets/image/profil/".$data_diri->file_profil;?>">
+                <?php
+              }else{
+               ?> 
+               <img style="height: 35px;" src="<?php echo base_url()?>assets/image/logo/img_avatar.png">
+               <?php
+             }
+             ?>
+           </span>
+           <span class="username"><?php echo $data_diri->nama;?></span>
+           <b class="caret"></b>
+         </a>
+         <ul class="dropdown-menu extended logout">
+          <div class="log-arrow-up"></div>
+          <li class="eborder-top">
+            <a href="<?php echo site_url('SekdepC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
           </li>
           <li>
-            <a href="<?php echo site_url('SekdepC/pengajuan_kegiatan')?>">
-              <i class="icon_ol"></i>
-              <span>Pengajuan Kegiatan</span>
-            </a>
+            <a href="<?php echo site_url('SekdepC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
+          </li>
+          <li>
+            <a href="<?php echo site_url('LoginC/logout')?>"><i class="icon_key_alt"></i> Log Out</a>
           </li>
         </ul>
-        <!-- sidebar menu end-->
+      </li>
+      <!-- user login dropdown end -->
+    </ul>
+    <!-- notificatoin dropdown end-->
+  </div>
+</header>      
+<!--header end-->
+<!--sidebar start-->
+<aside>
+  <div id="sidebar"  class="nav-collapse ">
+    <!-- sidebar menu start-->
+    <ul class="sidebar-menu">                
+      <li>
+        <a href="<?php echo site_url('SekdepC/')?>">
+          <i class="icon_house_alt"></i>
+          <span>Beranda</span>
+        </a>
+      </li>
+      <li class="sub-menu">
+        <a href="javascript:;" class="">
+          <i class="icon_bag_alt"></i>
+          <span>Persetujuan</span>
+          <span class="menu-arrow arrow_carrot-right"></span>
+        </a>
+        <ul class="sub">
+          <li> <a href="<?php echo site_url('SekdepC/persetujuan_kegiatan_mahasiswa')?>">Kegiatan Mahasiswa</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="<?php echo site_url('SekdepC/pengajuan_kegiatan')?>">
+          <i class="icon_ol"></i>
+          <span>Pengajuan Kegiatan</span>
+        </a>
+      </li>
+    </ul>
+    <!-- sidebar menu end-->
+  </div>
+</aside>
+<!--sidebar end-->
+
+<!--main content start-->
+<?php echo $body; ?>
+<!--main content end-->
+</section>
+
+<!-- modal detail Progress -->
+<div class="modal fade" id="modal_progress" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detail Progress</h4>
       </div>
-    </aside>
-    <!--sidebar end-->
-
-    <!--main content start-->
-    <?php echo $body; ?>
-    <!--main content end-->
-  </section>
-
-  <!-- modal detail Progress -->
-  <div class="modal fade" id="modal_progress" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Detail Progress</h4>
-        </div>
-        <div class="modal-body">
-          <div class="fetched-data"></div>
-        </div>
-        <div class="modal-footer">
-        </div>
+      <div class="modal-body">
+        <div class="fetched-data"></div>
+      </div>
+      <div class="modal-footer">
       </div>
     </div>
   </div>
-  <!-- container section start -->
-  <script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>
-  <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.js"></script>
-  <script src="<?php echo base_url();?>assets/js/scripts.js"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery-ui-1.10.4.min.js"></script>
-  <script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
+</div>
+<!-- container section start -->
+<script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.js"></script>
+<script src="<?php echo base_url();?>assets/js/scripts.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery-ui-1.10.4.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui-1.9.2.custom.min.js"></script>
 
-  <script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script>
 
-  <script src="<?php echo base_url();?>assets/js/jquery.scrollTo.min.js"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery.nicescroll.js" type="text/javascript"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery.rateit.min.js"></script>
-  <!-- custom select -->
-  <script src="<?php echo base_url();?>assets/js/jquery.customSelect.min.js" ></script>
-  <script src="<?php echo base_url();?>assets/js/jquery-jvectormap-1.2.2.min.js"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery-jvectormap-world-mill-en.js"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery.autosize.min.js"></script>
-  <script src="<?php echo base_url();?>assets/js/jquery.placeholder.min.js"></script>
-  <script src="<?php echo base_url();?>assets/js/gdp-data.js"></script>  
-  <script src="<?php echo base_url();?>assets/js/jquery.slimscroll.min.js"></script>
-  <script src="<?php echo base_url();?>assets/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?php echo base_url();?>assets/datatables/dataTables.bootstrap.min.js"></script>
-  <script type="text/javascript">
+<script src="<?php echo base_url();?>assets/js/jquery.scrollTo.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.rateit.min.js"></script>
+<!-- custom select -->
+<script src="<?php echo base_url();?>assets/js/jquery.customSelect.min.js" ></script>
+<script src="<?php echo base_url();?>assets/js/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery-jvectormap-world-mill-en.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.autosize.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.placeholder.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/gdp-data.js"></script>  
+<script src="<?php echo base_url();?>assets/js/jquery.slimscroll.min.js"></script>
+<script src="<?php echo base_url();?>assets/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url();?>assets/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
 
       // CSS data DataTable
 

@@ -200,9 +200,14 @@ class Staf_keuanganC extends CI_Controller {
 	}
 
 	function upload_image(){
+		$id_pengguna=$this->input->post('id_pengguna');
+
         $config['upload_path'] = './assets/image/profil'; //path folder
         $config['allowed_types'] = 'gif|jpg|png|jpeg|bmp'; //type yang dapat diakses bisa anda sesuaikan
-        $config['encrypt_name'] = TRUE; //Enkripsi nama yang terupload
+        $config['encrypt_name'] = FALSE; //Enkripsi nama yang terupload
+        $config['overwrite'] = TRUE;
+        $new_name = md5($id_pengguna);
+        $config['file_name'] = $new_name;
         $this->load->library('upload');
         $this->upload->initialize($config);
         if(!empty($_FILES['foto_profil']['name'])){
@@ -219,10 +224,10 @@ class Staf_keuanganC extends CI_Controller {
         		$config['height']= 100;
         		$config['new_image']= './assets/image/profil/'.$gbr['file_name'];
         		$this->load->library('image_lib', $config);
+        		// $this->image_lib->crop();
         		$this->image_lib->resize();
 
         		$gambar=$gbr['file_name'];
-        		$id_pengguna=$this->input->post('id_pengguna');
         		$this->UserM->simpan_upload($id_pengguna,$gambar);
         		$this->session->set_flashdata('sukses','Foto berhasil diunggah');
         		redirect('Staf_keuanganC/data_diri');

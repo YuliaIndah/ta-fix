@@ -38,53 +38,63 @@
           <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
               <span class="profile-ava">
-                <img alt="" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/14713754_1299932453374328_2078707598612152427_n.jpg?oh=9d0b1568abe4454dd39499ae6931978e&oe=5B32A923" style="height: 35px;">
-              </span>
-              <span class="username"><?php echo $data_diri->nama;?></span>
-              <b class="caret"></b>
-            </a>
-            <ul class="dropdown-menu extended logout">
-              <div class="log-arrow-up"></div>
-              <li class="eborder-top">
-                <a href="<?php echo site_url('Man_sarprasC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
-              </li>
-              <li>
-                <a href="<?php echo site_url('Man_sarprasC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
-              </li>
-              <li>
-                <a href="<?php echo site_url('LoginC/logout')?>"><i class="icon_key_alt"></i> Log Out</a>
-              </li>
-            </ul>
-          </li>
-          <!-- user login dropdown end -->
-        </ul>
-        <!-- notificatoin dropdown end-->
-      </div>
-    </header>      
-    <!--header end-->
-    <!--sidebar start-->
-    <aside>
-      <div id="sidebar"  class="nav-collapse ">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu">                
-          <li>
-            <a href="<?php echo site_url('Man_sarprasC/')?>">
-              <i class="icon_house_alt"></i>
-              <span>Beranda</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?php echo site_url('Man_sarprasC/kelola_barang')?>">
-              <i class="icon_pencil-edit"></i>
-              <span>Kelola Barang</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?php echo site_url('Man_sarprasC/klasifikasi_barang')?>">
-              <i class="icon_tags_alt"></i>
-              <span>Klasifikasi Barang</span>
-            </a>
-          </li>
+                <?php
+                if($data_diri->file_profil){
+                  ?>
+                  <img style="height: 35px;" src="<?php echo base_url()."assets/image/profil/".$data_diri->file_profil;?>">
+                  <?php
+                }else{
+                 ?> 
+                 <img style="height: 35px;" src="<?php echo base_url()?>assets/image/logo/img_avatar.png">
+                 <?php
+               }
+               ?>
+             </span>
+             <span class="username"><?php echo $data_diri->nama;?></span>
+             <b class="caret"></b>
+           </a>
+           <ul class="dropdown-menu extended logout">
+            <div class="log-arrow-up"></div>
+            <li class="eborder-top">
+              <a href="<?php echo site_url('Man_sarprasC/data_diri')?>"><i class="icon_profile"></i> Data Diri</a>
+            </li>
+            <li>
+              <a href="<?php echo site_url('Man_sarprasC/pengaturan_akun')?>"><i class="icon_cogs"></i> Pengaturan Akun</a>
+            </li>
+            <li>
+              <a href="<?php echo site_url('LoginC/logout')?>"><i class="icon_key_alt"></i> Log Out</a>
+            </li>
+          </ul>
+        </li>
+        <!-- user login dropdown end -->
+      </ul>
+      <!-- notificatoin dropdown end-->
+    </div>
+  </header>      
+  <!--header end-->
+  <!--sidebar start-->
+  <aside>
+    <div id="sidebar"  class="nav-collapse ">
+      <!-- sidebar menu start-->
+      <ul class="sidebar-menu">                
+        <li>
+          <a href="<?php echo site_url('Man_sarprasC/')?>">
+            <i class="icon_house_alt"></i>
+            <span>Beranda</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('Man_sarprasC/kelola_barang')?>">
+            <i class="icon_pencil-edit"></i>
+            <span>Kelola Barang</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?php echo site_url('Man_sarprasC/klasifikasi_barang')?>">
+            <i class="icon_tags_alt"></i>
+            <span>Klasifikasi Barang</span>
+          </a>
+        </li>
          <!--  <li>
             <a href="<?php echo site_url('Man_sarprasC/persetujuan_barang')?>">
               <i class=" icon_box-checked"></i>

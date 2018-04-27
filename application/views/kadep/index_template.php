@@ -64,7 +64,6 @@
              <?php
            }
            ?>
-           <!-- <img alt="" src="https://scontent-sit4-1.xx.fbcdn.net/v/t1.0-9/14713754_1299932453374328_2078707598612152427_n.jpg?oh=9d0b1568abe4454dd39499ae6931978e&oe=5B32A923" style="height: 35px;"> -->
          </span>
          <span class="username"><?php echo $data_diri->nama;?></span>
          <b class="caret"></b>
