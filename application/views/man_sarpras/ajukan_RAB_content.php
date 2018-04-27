@@ -116,7 +116,7 @@
             </tbody>
           </table>
           <center>
-            <a class="btn btn-info" href="<?php echo base_url('Man_sarprasC/tunda')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"> Buat Data Pengajuan </a></span>
+            <a class="btn btn-info" href="<?php echo base_url('ExcelC/')."/".$barang_setuju->kode_item_pengajuan;?>" id="custId" data-toggle="tooltip" data-toggle="tooltip" title="tersedia"> Buat Data Pengajuan </a></span>
           </center>
         </div>
       </div>

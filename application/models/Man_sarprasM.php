@@ -252,4 +252,18 @@ class Man_sarprasM extends CI_Model{
 		$this->db->update('item_pengajuan',$data);
 		return TRUE;
 	}
+
+	public function data_rab_all(){
+		$this->db->select('*');
+		$this->db->from('item_pengajuan');
+		$this->db->join('pengguna', 'pengguna.id_pengguna=item_pengajuan.id_pengguna');
+		$this->db->join('barang', 'barang.kode_barang=item_pengajuan.kode_barang');
+		$this->db->join('data_diri', 'data_diri.no_identitas=pengguna.no_identitas');
+		$this->db->join('jabatan', 'jabatan.kode_jabatan=pengguna.kode_jabatan');
+		$this->db->join('unit', 'unit.kode_unit=pengguna.kode_unit');
+		$this->db->where('item_pengajuan.status_pengajuan = "pengajuan"');
+		$query = $this->db->get();
+		return $query;
+	}
+
 }

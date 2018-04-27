@@ -259,6 +259,15 @@ class Man_sarprasC extends CI_Controller {
 		}
 	}
 
+	public function buat_rab(){ // untuk menampilkan data item pengajuan yang akan diajukan di rab
+		$data['title'] = "Pengajuan RAB | Manajer Sarana dan Prasarana";
+		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
+		$this->data['data_pengajuan_all'] = $this->Man_sarprasM->data_rab_all()->result(); //menampilkan data item pengajuan barang 
+		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
+		$data['body'] = $this->load->view('man_sarpras/data_rab_content', $this->data, true);
+		$this->load->view('man_sarpras/index_template', $data);
+	}
+
 	// sebagai pegawai =============================================================================================================
 	public function pengajuan_kegiatan(){ //halaman kegiatan pegawai
 		$data['title'] = "Pengajuan Kegiatan Pegawai | Manajer Sarana dan Prasarana";
