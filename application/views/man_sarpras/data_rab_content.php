@@ -51,60 +51,41 @@
                       <td><?php echo $no ?></td>
                       <td><?php echo $barang->nama_barang ?></td>
                       <td><?php echo $barang->nama_item_pengajuan ?></td>
-                      <td><?php 
-                     // mendapatkan nama pengaju dari kode item pengajuan berdasarkan id
-                      $nama_pengaju = $Man_sarprasM->get_data_item_pengajuan_by_id($barang->kode_item_pengajuan)->result()[0]->nama;
-                      echo $nama_pengaju;
-                      ?>
-                    </td>
-                    <td>
+                      <td><?php echo $barang->nama ?></td>
+                      <td><?php echo $barang->nama_jabatan;?></td>
+                      <td><?php echo $barang->merk ?></td>
+                      <td><?php echo $barang->tgl_item_pengajuan;?></td>
+                      <td><?php echo $barang->harga_satuan ?></td>
+                      <td><?php echo $barang->jumlah;?></td>
                       <?php 
-                    // mendapatkan nama jabatan dari kode item pengajuan berdasarkan id
-                      $jabatan      = $Man_sarprasM->get_data_item_pengajuan_by_id($barang->kode_item_pengajuan)->result()[0]->nama_jabatan;
-                    // mendapatkan kode jabatan dari kode item pengajuan berdasarkan id
-                      $kode_jabatan = $Man_sarprasM->get_data_item_pengajuan_by_id($barang->kode_item_pengajuan)->result()[0]->kode_jabatan;
-                    // mendapatkan nama unit dari kode item pengajuan berdasarkan id
-                      $unit         = $Man_sarprasM->get_data_item_pengajuan_by_id($barang->kode_item_pengajuan)->result()[0]->nama_unit;
-                    // mendapatkan kode unit dari kode item pengajuan berdasarkan id
-                      $kode_unit    = $Man_sarprasM->get_data_item_pengajuan_by_id($barang->kode_item_pengajuan)->result()[0]->kode_unit;
-                    //menampilkan nama jabatan dan unit dari pengaju item pengajuan
-                      $jabatan = $jabatan." ".$unit;
-                      echo $jabatan;
-                      ?>
-                    </td>
-                    <td><?php echo $barang->merk ?></td>
-                    <td><?php echo $barang->tgl_item_pengajuan;?></td>
-                    <td><?php echo $barang->harga_satuan ?></td>
-                    <td><?php echo $barang->jumlah;?></td>
-                    <?php 
-                    $jumlah = $barang->jumlah;
-                    $harga = $barang->harga_satuan;
+                      $jumlah = $barang->jumlah;
+                      $harga = $barang->harga_satuan;
                   //menghitung hasil total biaya item pengajuan dari perkalian harga satuan dengan jumlah barang
-                    $total = $jumlah*$harga;
-                    ?>
-                    <td><?php echo $barang->url ?></td>
-                    <td><?php echo $total;?></td>
-                  </tr>
-                  <?php
-                  $no++;
-                }
-                ?>
-              </tbody>
-            </table>
-            <center>
-              <a  class="btn btn-info" href="<?php echo base_url("ExcelC/export_excel"); ?>">Export ke Excel</a>
-            </center>
+                      $total = $jumlah*$harga;
+                      ?>
+                      <td><?php echo $barang->url ?></td>
+                      <td><?php echo $total;?></td>
+                    </tr>
+                    <?php
+                    $no++;
+                  }
+                  ?>
+                </tbody>
+              </table>
+              <center>
+                <a  class="btn btn-info" href="<?php echo base_url("ExcelC/export"); ?>">Export ke Excel</a>
+              </center>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </section>
+  <div class="text-center">
+    <div class="credits">
+      <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
   </div>
-</section>
-<div class="text-center">
-  <div class="credits">
-    <a href="https://bootstrapmade.com/free-business-bootstrap-themes-website-templates/">Business Bootstrap Themes</a> by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-  </div>
-</div>
 </section>
 
 <script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>

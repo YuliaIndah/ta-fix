@@ -95,54 +95,29 @@
             <span>Klasifikasi Barang</span>
           </a>
         </li>
-         <!--  <li>
-            <a href="<?php echo site_url('Man_sarprasC/persetujuan_barang')?>">
-              <i class=" icon_box-checked"></i>
-              <span>Persetujuan Barang</span>
-            </a>
-          </li> -->
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-              <i class="icon_bag_alt"></i>
-              <span>Persetujuan</span>
-              <span class="menu-arrow arrow_carrot-right"></span>
-            </a>
-            <ul class="sub">
-              <li> <a href="<?php echo site_url('Man_sarprasC/persetujuan_barang')?>">Barang</a></li>
-              <li> <a href="<?php echo site_url('Man_sarprasC/persetujuan_kegiatan_staf')?>">Kegiatan Staf</a></li>
-              <!-- <li> <a href="<?php echo site_url('Man_sarprasC/persetujuan_kegiatan_pegawai')?>">Kegiatan Pegawai</a></li> -->
-            </ul>
-          </li>
-          <li class="sub-menu">
-            <a href="javascript:;" class="">
-              <i class="icon_bag_alt"></i>
-              <span>Pengajuan</span>
-              <span class="menu-arrow arrow_carrot-right"></span>
-            </a>
-            <ul class="sub">
-              <li> <a href="<?php echo site_url('Man_sarprasC/ajukan_barang')?>">Barang</a></li>
-              <li> <a href="<?php echo site_url('Man_sarprasC/pengajuan_kegiatan')?>">Kegiatan Pegawai</a></li>
-              <li> <a href="<?php echo site_url('Man_sarprasC/ajukan_RAB')?>">RAB</a></li>
-            </ul>
-          </li>
-         <!--  <li>
-            <a href="<?php echo site_url('Man_sarprasC/kegiatan_pegawai')?>">
-              <i class="icon_ol"></i>
-              <span>Pengajuan Kegitan</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?php echo site_url('Man_sarprasC/ajukan_barang')?>">
-              <i class="icon_bag_alt"></i>
-              <span>Pengajuan Barang</span>
-            </a>
-          </li>
-          <li>
-            <a href="<?php echo site_url('Man_sarprasC/ajukan_RAB')?>">
-              <i class="icon_bag_alt"></i>
-              <span>Pengajuan RAB</span>
-            </a>
-          </li> -->
+        <li class="sub-menu">
+          <a href="javascript:;" class="">
+            <i class=" icon_box-checked"></i>
+            <span>Persetujuan</span>
+            <span class="menu-arrow arrow_carrot-right"></span>
+          </a>
+          <ul class="sub">
+            <li> <a href="<?php echo site_url('Man_sarprasC/persetujuan_barang')?>">Barang</a></li>
+            <li> <a href="<?php echo site_url('Man_sarprasC/persetujuan_kegiatan_staf')?>">Kegiatan Staf</a></li>
+          </ul>
+        </li>
+        <li class="sub-menu">
+          <a href="javascript:;" class="">
+            <i class="icon_bag_alt"></i>
+            <span>Pengajuan</span>
+            <span class="menu-arrow arrow_carrot-right"></span>
+          </a>
+          <ul class="sub">
+            <li> <a href="<?php echo site_url('Man_sarprasC/ajukan_barang')?>">Barang</a></li>
+            <li> <a href="<?php echo site_url('Man_sarprasC/pengajuan_kegiatan')?>">Kegiatan Pegawai</a></li>
+            <li> <a href="<?php echo site_url('Man_sarprasC/ajukan_RAB')?>">RAB</a></li>
+          </ul>
+        </li>
         </ul>
         <!-- sidebar menu end-->
       </div>

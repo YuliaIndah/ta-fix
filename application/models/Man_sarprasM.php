@@ -253,7 +253,7 @@ class Man_sarprasM extends CI_Model{
 		return TRUE;
 	}
 
-	public function data_rab_all(){
+	public function data_rab_all(){ // menampilkan data yang siap untuk diajukan untuk RAB
 		$this->db->select('*');
 		$this->db->from('item_pengajuan');
 		$this->db->join('pengguna', 'pengguna.id_pengguna=item_pengajuan.id_pengguna');
@@ -262,6 +262,13 @@ class Man_sarprasM extends CI_Model{
 		$this->db->join('jabatan', 'jabatan.kode_jabatan=pengguna.kode_jabatan');
 		$this->db->join('unit', 'unit.kode_unit=pengguna.kode_unit');
 		$this->db->where('item_pengajuan.status_pengajuan = "pengajuan"');
+		$query = $this->db->get()->result();
+		return $query;
+	}
+
+	public function get_pengajuan_rab(){
+		$this->db->select('*');
+		$this->db->from('pengajuan');
 		$query = $this->db->get();
 		return $query;
 	}

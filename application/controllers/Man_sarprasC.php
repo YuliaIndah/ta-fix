@@ -235,6 +235,7 @@ class Man_sarprasC extends CI_Controller {
 		$this->data['data_diri'] = $this->UserM->get_data_diri()->result()[0]; //get data diri buat nampilin nama di pjok kanan
 		$this->data['data_barang_setuju'] = $this->Man_sarprasM->get_barang_setuju()->result(); //menampilkan data item pengajuan barang 
 		$this->data['Man_sarprasM'] = $this->Man_sarprasM;
+		$this->data['pengajuan'] = $this->Man_sarprasM->get_pengajuan_rab()->result(); //menampilkan data pengajuan rab
 		$data['body'] = $this->load->view('man_sarpras/ajukan_RAB_content', $this->data, true);
 		$this->load->view('man_sarpras/index_template', $data);
 	}
